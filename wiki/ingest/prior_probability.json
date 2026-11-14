@@ -1,0 +1,42 @@
+{
+ "source": "prior_probability",
+ "discussion": {
+  "summary": "此資料說明先驗機率（prior probability）與先驗分佈的概念、類型與建構方式，並討論其在貝氏統計中的角色與更新機制。",
+  "key_points": [
+   "先驗機率是觀測資料加入前對不確定量的假設分佈。",
+   "先驗可分為資訊性先驗、弱資訊性先驗與無資訊性先驗，依資訊量強弱不同。",
+   "先驗可由過去資料、專家意見或對稱原則（如均勻先驗）取得。",
+   "在貝氏推論中，先驗與似然結合得到後驗分佈（posterior distribution）。",
+   "層級先驗（hierarchical priors）允許先驗本身有參數（超先驗）。"
+  ],
+  "conflicts": [],
+  "proposed_pages": [
+   {
+    "name": "prior-probability",
+    "action": "create",
+    "reason": "說明先驗機率與先驗分佈的定義、類型與建構方式，補足現有 Wiki 中缺少的基礎概念。"
+   },
+   {
+    "name": "informative-prior",
+    "action": "create",
+    "reason": "介紹資訊性先驗（informative prior）及其強弱分類，方便與假設檢定與正則化的討論銜接。"
+   },
+   {
+    "name": "uninformative-prior",
+    "action": "create",
+    "reason": "說明無資訊性先驗（uninformative prior）與原則不偏性，與後驗推論的關係。"
+   }
+  ],
+  "questions": [
+   "是否需要在先驗頁面加入具體的數學範例（例如 Beta 先驗與二項似然）？",
+   "在說明先驗類型時，您希望強調哪一種應用情境（例如醫學診斷、機器學習正則化）？"
+  ]
+ },
+ "notes": "好",
+ "written": [
+  "prior-probability",
+  "informative-prior",
+  "uninformative-prior"
+ ],
+ "problems": []
+}

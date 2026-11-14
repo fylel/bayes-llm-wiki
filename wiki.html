@@ -1,0 +1,448 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>貝氏統計入門 LLM Wiki</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+ onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>body{font-family:system-ui,'Noto Sans TC',sans-serif;margin:0;display:flex;color:#222}
+nav{width:240px;position:sticky;top:0;height:100vh;overflow:auto;background:#f4f1ea;padding:20px;box-sizing:border-box}
+nav a{display:block;color:#7a3e00;text-decoration:none;margin:6px 0;font-size:14px}
+main{max-width:820px;padding:24px 40px;line-height:1.75}section{border-bottom:1px solid #ddd;padding-bottom:24px}
+table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:4px 8px}details{margin-top:40px}</style></head>
+<body><nav><b>貝氏統計入門 Wiki</b><br><small>13 頁 · 來源 6 篇</small><hr><a href="#base-rate-fallacy">基礎率謬誤</a><a href="#bayes-theorem">Bayes&#x27; Theorem</a><a href="#bayesian-inference">Bayesian Inference</a><a href="#bayesian-updating">Bayesian Updating</a><a href="#beta-binomial-example">二項‑貝塔範例（Beta‑Binomial Example）</a><a href="#conjugate-prior">共軛先驗（Conjugate Prior）</a><a href="#credible-interval">可信區間（credible interval）</a><a href="#false-positive-paradox">假陽性悖論</a><a href="#gamma-poisson-example">Gamma‑Poisson 範例（Gamma‑Poisson Example）</a><a href="#informative-prior">資訊性先驗（Informative Prior）</a><a href="#medical-diagnosis-example">Medical Diagnosis Example</a><a href="#prior-probability">先驗機率（Prior Probability）</a><a href="#uninformative-prior">無資訊性先驗（Uninformative Prior）</a></nav>
+<main><section id="base-rate-fallacy"><h1>基礎率謬誤</h1>
+<p>基礎率謬誤（base rate fallacy）是指在判斷時忽略整體發生率（先驗機率），只看個別案例的資訊而產生的錯誤推論。</p>
+<p>基礎率謬誤又稱基礎率忽視（base rate neglect）或基礎率偏誤（base rate bias），屬於更廣義的延伸忽視（extension neglect）的一種形式。當此謬誤應用在法律程序中，尤其是統計檢驗（如 DNA 檢驗）的結果時，常被稱為檢察官謬誤（prosecutor's fallacy）或辯護律師謬誤（defense attorney's fallacy）。</p>
+<h2>為何會發生</h2>
+<p>人們往往只根據測試的正確率或個別案例的資訊來估計結果的可能性，卻忘記考慮樣本中該情況的整體比例（先驗機率）。在低發生率的族群中，即使測試的假陽性率（false positive rate）極低，陽性結果仍可能大多是偽陽性，這正是基礎率謬誤的核心。</p>
+<h2>典型例子</h2>
+<ul>
+<li><strong>疾病篩檢</strong>：在感染率 2% 的族群中，使用偽陽性率 5% 的測試，陽性結果中只有約 29% 真正感染。</li>
+<li><strong>酒駕測試</strong>：酒精濃度偵測儀對清醒者的偽陽性率為 5%，而酒駕者僅佔千分之一。陽性結果的真陽性機率只有約 2%。</li>
+<li><strong>恐怖分子辨識</strong>：在百萬人口中只有 100 名恐怖分子（基礎率 0.01%），偽陽性率 1% 時，觸發警報的個體中真正的恐怖分子比例約 1%。</li>
+</ul>
+<p>這些例子皆可透過貝氏定理（Bayes' theorem）結合先驗機率與概似（likelihood）計算正確的後驗機率（posterior probability），避免基礎率謬誤。</p>
+<h2>與其他謬誤的關係</h2>
+<p>基礎率謬誤常與檢察官謬誤混同，兩者皆涉及錯誤的機率解讀，只是應用情境不同。檢察官謬誤特指在法律證據解讀上忽略基礎率，將測試的條件機率誤當成事後機率。</p>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#bayesian-inference">bayesian-inference</a>：說明如何使用貝氏推論結合先驗與概似。</li>
+<li><a href="#false-positive-paradox">false-positive-paradox</a>：深入探討假陽性悖論的數值示例。</li>
+<li><a href="#medical-diagnosis-example">medical-diagnosis-example</a>：醫學診斷中基礎率謬誤的實際應用。</li>
+</ul>
+<h2>來源</h2>
+<ul>
+<li>base_rate_fallacy</li>
+</ul></section><section id="bayes-theorem"><h1>Bayes' Theorem</h1>
+<p>貝氏定理（Bayes' theorem）提供從條件機率反推原因機率的公式。</p>
+<p>貝氏定理的數學式為
+$$
+P(A|B)=\frac{P(B|A)\,P(A)}{P(B)}
+$$
+其中 $A$、$B$ 為任意事件且 $P(B)\neq0$。</p>
+<ul>
+<li>$P(A|B)$：在已知 $B$ 成立的情況下 $A$ 發生的條件機率，也稱<strong>後驗機率（posterior probability）</strong>。</li>
+<li>$P(B|A)$：在已知 $A$ 成立的情況下 $B$ 發生的條件機率，常被解釋為<strong>概似函數（likelihood）</strong>在 $A$ 處的取值。</li>
+<li>$P(A)$、$P(B)$：不帶條件的機率，稱為<strong>先驗機率（prior probability）</strong>或邊際機率（marginal probability）。</li>
+</ul>
+<p>若有一組互斥且完整的事件 $A_1, A_2,\dots, A_k$（即必有且只能發生其中一個），則結合全機率定理可得
+$$
+P(A_i|B)=\frac{P(A_i)\,P(B|A_i)}{\sum_{j=1}^{k}P(A_j)\,P(B|A_j)}
+$$
+此式在多類別分類或模型比較時特別有用。</p>
+<p><strong>歷史簡述</strong>：貝氏定理由 18 世紀的統計學家兼牧師 Thomas Bayes（托馬斯·貝氏）首次提出，1763 年由其友人 Richard Price（理查德·普賴斯）編輯發表。後來 Pierre‑Simon Laplace（皮埃爾‑西蒙·拉普拉斯）獨立發展並擴充此結果，使其成為現代貝氏統計的核心。</p>
+<p><strong>應用</strong>：貝氏定理是貝氏推論（<a href="#bayesian-inference">bayesian-inference</a>）的基礎，透過結合先驗與概似得到後驗分佈，進而進行參數估計與模型比較。</p>
+<h2>來源</h2>
+<p>bayes_theorem</p></section><section id="bayesian-inference"><h1>Bayesian Inference</h1>
+<p>貝氏推論（Bayesian inference）利用貝氏定理（Bayes' theorem）將先驗機率（prior probability）與觀測資料的概似函數（likelihood）結合，得到後驗分佈（posterior distribution），以此進行統計推斷。</p>
+<p>基本流程如下：
+1. <strong>設定先驗</strong>：根據先前知識或假設，為模型參數 $\theta$ 指定先驗分佈 $P(\theta)$。
+2. <strong>計算概似</strong>：給定觀測資料 $D$，寫出資料在參數 $\theta$ 下的機率模型 $P(D\mid\theta)$，即概似函數。
+3. <strong>應用貝氏定理</strong>：
+   $$
+   P(\theta\mid D)=\frac{P(D\mid\theta)\,P(\theta)}{P(D)}
+   $$
+   其中分母 $P(D)=\int P(D\mid\theta)P(\theta)\,d\theta$ 為證據（evidence），保證後驗分佈正規化。
+4. <strong>後驗分析</strong>：利用後驗分佈計算參數的點估計（如後驗期望）或區間估計（如 95% 後驗可信區間），亦可進行模型比較（如 Bayes factor）。</p>
+<p>貝氏推論的優點在於能自然融合先驗資訊，並在新資料到來時以同樣的公式更新後驗，形成<strong>連續學習</strong>的機制。相關概念請見 <a href="#bayes-theorem">bayes-theorem</a> 與 <a href="#bayesian-updating">bayesian-updating</a>。</p>
+<h2>實務範例</h2>
+<ul>
+<li><strong>醫學診斷</strong>（<a href="#medical-diagnosis-example">medical-diagnosis-example</a>）：先驗 $P(\text{疾病})$ 為疾病的盛行率，概似 $P(\text{陽性}\mid\text{疾病})$ 為檢驗的靈敏度，套入貝氏定理即可得到患者在陽性結果下患病的後驗機率。</li>
+<li><strong>A/B 測試</strong>：先驗可設定為兩個版本點擊率相等的信念 $P(p_A=p_B)=0.5$，觀測到的點擊次數形成二項概似 $P(D\mid p_A,p_B)$，更新後得到每個版本的後驗分佈，用以比較哪個版本較有優勢。</li>
+<li><strong>運動表現預測</strong>：根據過去比賽成績設定先驗分佈，將新比賽的得分作為概似，更新後的後驗分佈即為對未來表現的預測。</li>
+</ul>
+<h2>與非貝氏更新規則的差異（簡述）</h2>
+<p>非貝氏更新規則（如 Jeffrey 更新或其他概率動力學）在證據本身帶有不確定性時會使用不同的公式，但仍需滿足全機率法則。貝氏更新是最常用且在多數情況下最直觀的方式，因為它直接將先驗與觀測的相容性（概似）相乘，再正規化得到後驗。</p>
+<h2>來源</h2>
+<p>bayesian_inference</p></section><section id="bayesian-updating"><h1>Bayesian Updating</h1>
+<p>貝氏更新（Bayesian updating）是指在觀測到新證據 $E$ 後，依據貝氏定理將先驗機率 $P(H)$ 更新為後驗機率 $P(H\mid E)$ 的過程，並可在後續觀測到更多證據時重複此步驟，形成動態的信念修正機制。</p>
+<h3>單次更新</h3>
+<p>單次觀測時，貝氏定理給出
+$$
+P(H\mid E)=\frac{P(E\mid H)\,P(H)}{P(E)}
+$$
+其中 $P(E)=\sum_i P(E\mid H_i)P(H_i)$ 為證據的邊際機率，確保所有後驗機率加總為 1。</p>
+<h3>多次觀測的遞迴更新</h3>
+<p>若有一系列獨立且同分佈的觀測 $\mathbf{E}=\{e_1,\dots,e_n\}$，則整體概似為
+$$
+P(\mathbf{E}\mid H)=\prod_{k=1}^{n}P(e_k\mid H)
+$$
+將此代入貝氏定理，可直接得到一次性更新的後驗：
+$$
+P(H\mid \mathbf{E})=\frac{P(\mathbf{E}\mid H)\,P(H)}{\sum_i P(\mathbf{E}\mid H_i)P(H_i)}
+$$
+這等價於對每一次觀測依序應用單次更新的結果。</p>
+<h3>與貝氏推論的關係</h3>
+<p>貝氏更新是貝氏推論（<a href="#bayesian-inference">bayesian-inference</a>）的核心步驟，負責在資料累積時持續修正參數或模型的信念分佈。貝氏推論則進一步討論如何選擇先驗、計算後驗以及進行模型比較等更廣泛的議題。</p>
+<h2>來源</h2>
+<p>bayesian_inference</p></section><section id="beta-binomial-example"><h1>二項‑貝塔範例（Beta‑Binomial Example）</h1>
+<p>說明二項分佈的概似與 Beta 先驗的共軛關係，以及超參數的更新方式。</p>
+<p><strong>模型設定</strong>
+- 觀測 $s$ 次成功、$f=n-s$ 次失敗，符合二項分佈 $\text{Binomial}(n,q)$，其中 $q\in[0,1]$ 為成功機率。
+- 先驗選擇 Beta 分佈 $\text{Beta}(\alpha,\beta)$：
+  $$p(q)=\frac{q^{\alpha-1}(1-q)^{\beta-1}}{B(\alpha,\beta)}$$
+  其中 $B(\alpha,\beta)$ 為 Beta 正規化常數。</p>
+<p><strong>後驗推導</strong>
+根據貝氏定理：
+$$p(q\mid s,f) \propto p(s,f\mid q)\,p(q)$$
+將二項概似與 Beta 先驗相乘得到：
+$$p(q\mid s,f) \propto q^{s+\alpha-1}(1-q)^{f+\beta-1}$$
+因此後驗仍為 Beta 分佈，參數更新為：
+$$\boxed{\text{Beta}(\alpha+s,\,\beta+f)}$$</p>
+<p><strong>超參數解釋</strong>
+- $\alpha$、$\beta$ 可視為偽觀測：$\alpha-1$ 次成功、$\beta-1$ 次失敗（若以模式為基礎），或 $\alpha$、$\beta$ 次成功、失敗（若以均值為基礎）。
+- 每次新資料到來，只需把成功次數加到 $\alpha$，失敗次數加到 $\beta$，即完成更新。</p>
+<p><strong>數值示例</strong>
+假設先驗 $\text{Beta}(\alpha=2,\beta=2)$（對稱、稍微集中於 $0.5$），觀測 $n=10$ 次，其中 $s=7$ 次成功、$f=3$ 次失敗。
+- 後驗為 $\text{Beta}(2+7,\,2+3)=\text{Beta}(9,5)$。
+- 後驗均值 $=\frac{9}{9+5}=0.643$，比先驗均值 $0.5$ 更靠近觀測比例 $0.7$，同時保留不確定性。</p>
+<hr />
+<h2>來源</h2>
+<ul>
+<li>conjugate_prior</li>
+</ul></section><section id="conjugate-prior"><h1>共軛先驗（Conjugate Prior）</h1>
+<p>此頁說明共軛先驗的概念、超參數的意義與常見範例，並說明其在貝氏推論中的便利性。</p>
+<p>在貝氏機率理論中，若給定概似函數 $p(x\mid\theta)$，後驗分佈 $p(\theta\mid x)$ 與先驗分佈 $p(\theta)$ 屬於同一機率分佈族，則先驗與後驗稱為<strong>共軛分佈（conjugate distributions）</strong>，而先驗稱為<strong>共軛先驗（conjugate prior）</strong>。</p>
+<p>共軛先驗的主要好處是能得到封閉形式（closed‑form）的後驗分佈，避免數值積分的需求；同時也能直觀說明資料如何更新先驗。</p>
+<hr />
+<h3>1. 代數便利性</h3>
+<p>若先驗與後驗同屬一個分佈族，更新公式往往只涉及<strong>超參數（hyperparameters）</strong>的簡單加法或乘法。例如在二項-貝塔情況，先驗 $\text{Beta}(\alpha,\beta)$ 觀測 $s$ 次成功、$f$ 次失敗後，後驗變為 $\text{Beta}(\alpha+s,\beta+f)$。</p>
+<hr />
+<h3>2. 超參數與偽觀測</h3>
+<p>超參數可被解釋為<strong>偽觀測（pseudo‑observations）</strong>：
+- 在 Beta 分佈中，$\alpha$、$\beta$ 分別對應 $\alpha-1$ 次成功與 $\beta-1$ 次失敗（若以後驗模式為基礎），或 $\alpha$、$\beta$ 次成功與失敗（若以後驗均值為基礎）。
+- 這種解釋有助於直觀設定先驗，尤其在資料稀少時。</p>
+<hr />
+<h3>3. 動態系統觀點</h3>
+<p>將超參數視為系統狀態，隨著新資料到來而更新，形成離散時間的<strong>動態系統（dynamical system）</strong>。不同的起始超參數會產生不同的學習軌跡，類似遞迴貝氏估計（recursive Bayesian estimation）。</p>
+<hr />
+<h3>4. 常見共軛配對（指數族）</h3>
+<table>
+<thead>
+<tr>
+<th>概似分佈（Likelihood）</th>
+<th>共軛先驗</th>
+<th>後驗形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>二項分佈（Binomial）</td>
+<td>Beta</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>正態分佈（已知變異）</td>
+<td>正態（Normal）</td>
+<td>正態</td>
+</tr>
+<tr>
+<td>正態分佈（未知變異）</td>
+<td>Inverse‑Gamma / Wishart</td>
+<td>同族</td>
+</tr>
+<tr>
+<td>泊松分佈（Poisson）</td>
+<td>Gamma</td>
+<td>Gamma</td>
+</tr>
+<tr>
+<td>多項分佈（Multinomial）</td>
+<td>Dirichlet</td>
+<td>Dirichlet</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>5. 實務範例概述</h3>
+<ul>
+<li><strong>二項‑貝塔</strong>：觀測成功次數 $s$、失敗次數 $f$，先驗 $\text{Beta}(\alpha,\beta)$ 更新為 $\text{Beta}(\alpha+s,\beta+f)$。</li>
+<li><strong>Gamma‑Poisson</strong>：以 Gamma 先驗 $\text{Gamma}(\alpha,\beta)$ 估計泊松率 $\lambda$，觀測 $n$ 個計數 $x_i$ 後，後驗為 $\text{Gamma}(\alpha+\sum x_i,\,\beta+n)$，其後驗預測分佈為負二項分佈（Negative Binomial）。</li>
+</ul>
+<hr />
+<h2>來源</h2>
+<ul>
+<li>conjugate_prior</li>
+</ul></section><section id="credible-interval"><h1>可信區間（credible interval）</h1>
+<p>用於描述參數在後驗分佈（posterior distribution）中落於某區間的機率。</p>
+<p>在貝氏統計中，可信區間是一個區間 $[a, b]$，使得未觀測的參數值 $\theta$ 落在此區間的機率為 $\gamma$，即
+$$P(a \le \theta \le b \mid \text{資料}) = \gamma.$$ 例如，若 $\gamma = 0.95$，則 $[a, b]$ 為 95% 可信區間。</p>
+<h2>主要類型</h2>
+<ul>
+<li><strong>最小可信區間（SCI，smallest credible interval）</strong>：亦稱最高密度區間（highest density interval），是機率密度最高的區間，當 $\gamma \ge 0.5$ 時必包含中位數，若分佈為單峰則亦包含模式（mode）。</li>
+<li><strong>等尾可信區間（MCI，median credible interval）</strong>：又稱等尾區間（equal‑tailed interval），取分位數 $[q_{(1-\gamma)/2},\, q_{(1+\gamma)/2}]$，必包含中位數。</li>
+<li><strong>分位數基礎區間</strong>：如最低可信區間（LCI）$[q_0, q_{\gamma}]$、最高可信區間（HCI）$[q_{1-\gamma}, q_1]$，適用於有界變數。</li>
+<li><strong>最小可信集合（SCS，smallest credible set）</strong>：對於多峰或多變量分佈，可能是非連續的集合，仍保持最高密度特性，必包含模式。</li>
+</ul>
+<h2>與信賴區間的差異</h2>
+<ul>
+<li><strong>參數觀點</strong>：可信區間將參數視為隨機變數，區間本身固定；信賴區間則把參數視為固定值，區間隨抽樣而變。</li>
+<li><strong>機率解釋</strong>：可信區間直接給出參數落在區間內的機率 $\gamma$；信賴區間的 $95\%$ 表示在大量重複抽樣下，約 $95\%$ 的區間會覆蓋真實參數。</li>
+<li><strong>先驗需求</strong>：可信區間需要事先指定先驗分佈，信賴區間則不依賴先驗。</li>
+</ul>
+<h2>計算方式</h2>
+<ol>
+<li><strong>解析法</strong>：若後驗分佈有閉式解（如正態、貝塔），可直接求分位數或最高密度區間。</li>
+<li><strong>模擬法</strong>：使用馬可夫鏈蒙特卡羅（MCMC）抽樣得到後驗樣本，然後根據樣本估計分位數或密度等高線，以構成可信區間或可信集合。</li>
+</ol>
+<h2>小結</h2>
+<p>可信區間提供了在給定資料與先驗下，參數可能值的直觀範圍，並可依需求選擇最小區間、等尾區間或其他分位數基礎的形式。其概念與頻率學派的信賴區間不同，核心在於把不確定性歸因於參數本身。</p>
+<h2>來源</h2>
+<ul>
+<li>credible_interval</li>
+</ul></section><section id="false-positive-paradox"><h1>假陽性悖論</h1>
+<p>假陽性悖論（false positive paradox）說明在低發生率族群中，即使測試的準確度極高，陽性結果仍可能大多是偽陽性。</p>
+<h2>基本概念</h2>
+<p>當測試的偽陽性率（false positive rate）高於目標族群的基礎率（prevalence）時，正確的陽性結果（true positives）會被大量的偽陽性結果所淹沒。此情形常在大規模篩檢或監控系統中出現。</p>
+<h2>數值示例</h2>
+<h3>疾病篩檢（低發生率）</h3>
+<ul>
+<li>人口 1,000 人，感染率 2%（20 人）。</li>
+<li>偽陽性率 5%，偽陰性率 0%。</li>
+<li>預期結果：</li>
+<li>真陽性：20 × 1 = 20</li>
+<li>偽陽性：980 × 0.05 = 49</li>
+<li>陽性總數：69</li>
+<li>陽性結果中實際感染的機率：$\frac{20}{69}\approx 29\%$。</li>
+</ul>
+<h3>酒駕測試</h3>
+<ul>
+<li>酒駕者比例 0.1%（1/1,000），偽陽性率 5%，偽陰性率 0%。</li>
+<li>預期結果：</li>
+<li>真陽性：1 × 1 = 1</li>
+<li>偽陽性：$999 \times 0.05 \approx 49.95$</li>
+<li>陽性總數：約 50.95</li>
+<li>陽性結果中真酒駕的機率：$\frac{1}{50.95}\approx 2\%$。</li>
+</ul>
+<h2>為何直覺會錯誤</h2>
+<p>人們往往只看測試的「個別」正確率（如 99% 準確），忽略了樣本中正例的稀少性。當正例極少時，即使偽陽性率很小，產生的偽陽性數量仍可能超過真陽性。</p>
+<h2>與貝氏推論的關聯</h2>
+<p>使用貝氏定理（Bayes' theorem）可將先驗機率（基礎率）與測試的條件機率結合，得到正確的後驗機率（posterior probability）。</p>
+<p>$$
+P(\text{疾病}\mid \text{陽性}) = \frac{P(\text{陽性}\mid \text{疾病})\,P(\text{疾病})}{P(\text{陽性})}
+$$
+其中 $P(\text{陽性})$ 由全機率定理計算。</p>
+<h2>相關頁面</h2>
+<ul>
+<li><a href="#bayesian-inference">bayesian-inference</a>：貝氏推論的詳細說明。</li>
+<li><a href="#base-rate-fallacy">base-rate-fallacy</a>：基礎率謬誤的概念與其他例子。</li>
+<li><a href="#medical-diagnosis-example">medical-diagnosis-example</a>：醫學診斷中假陽性悖論的實際計算。</li>
+</ul>
+<h2>來源</h2>
+<ul>
+<li>base_rate_fallacy</li>
+</ul></section><section id="gamma-poisson-example"><h1>Gamma‑Poisson 範例（Gamma‑Poisson Example）</h1>
+<p>展示 Gamma 分佈作為泊松分佈（Poisson）之共軛先驗，並說明後驗預測為負二項分佈的計算步驟。</p>
+<p><strong>模型設定</strong>
+- 觀測資料 $x_1,\dots,x_n$ 為計數，假設服從泊松分佈 $\text{Poisson}(\lambda)$，其中 $\lambda&gt;0$ 為事件率。
+- 先驗選擇 Gamma 分佈 $\text{Gamma}(\alpha,\beta)$（形狀 $\alpha$, 速率 $\beta$）：
+  $$p(\lambda)=\frac{\beta^{\alpha}}{\Gamma(\alpha)}\,\lambda^{\alpha-1}e^{-\beta\lambda}$$</p>
+<p><strong>後驗推導</strong>
+泊松概似：
+$$p(\mathbf{x}\mid\lambda)=\prod_{i=1}^{n}\frac{\lambda^{x_i}e^{-\lambda}}{x_i!}=\lambda^{\sum x_i}e^{-n\lambda}\times\text{常數}$$
+與 Gamma 先驗相乘得到後驗：
+$$p(\lambda\mid\mathbf{x}) \propto \lambda^{\alpha-1+\sum x_i}\,e^{-(\beta+n)\lambda}$$
+因此後驗仍為 Gamma 分佈，參數更新為：
+$$\boxed{\text{Gamma}(\alpha&#x27; = \alpha+\sum_{i}x_i,\; \beta&#x27; = \beta + n)}$$</p>
+<p><strong>後驗預測（Posterior Predictive）</strong>
+對於新觀測 $x_{\text{new}}$，預測分佈為：
+$$p(x_{\text{new}}\mid\mathbf{x}) = \int_0^{\infty} p(x_{\text{new}}\mid\lambda)\,p(\lambda\mid\mathbf{x})\,d\lambda$$
+代入泊松與 Gamma 後驗，可得負二項分佈（Negative Binomial）：
+$$p(x_{\text{new}}=k\mid\mathbf{x}) = \binom{k+\alpha&#x27;-1}{k}\left(\frac{\beta&#x27;}{\beta&#x27;+1}\right)^{\alpha&#x27;}\left(\frac{1}{\beta&#x27;+1}\right)^{k}$$
+其中 $k=0,1,2,\dots$。</p>
+<p><strong>實務示例（租車服務）</strong>
+- 觀測三天內在家附近可見的車輛數 $\mathbf{x}=[3,4,1]$。
+- 先驗選 $\text{Gamma}(\alpha=2,\beta=2)$（對平均車輛數有寬鬆的先驗）。
+- 總計 $\sum x_i = 8$, $n=3$，得到後驗 $\text{Gamma}(\alpha&#x27;=10,\;\beta&#x27;=5)$。
+- 後驗預測 $P(x&gt;0\mid\mathbf{x}) = 1-\text{NB}(0\mid\alpha&#x27;=10,\;p=\frac{\beta&#x27;}{\beta&#x27;+1}=\frac{5}{6}) \approx 0.84$，較單純的最大概似估計（約 $0.93$）更保守，因考慮了參數不確定性。</p>
+<hr />
+<h2>來源</h2>
+<ul>
+<li>conjugate_prior</li>
+</ul></section><section id="informative-prior"><h1>資訊性先驗（Informative Prior）</h1>
+<p>說明資訊性先驗的概念、強弱分類與典型應用情境。</p>
+<p>資訊性先驗（informative prior）在先驗分佈中包含具體、明確的資訊，對後驗分佈產生顯著影響。若先驗資訊與資料相衝突，後驗仍會受到先驗的支配，除非資料量足以壓倒先驗的影響。</p>
+<h2>強資訊性先驗（Strong Prior）</h2>
+<ul>
+<li>定義：先驗資訊量大到足以主導後驗，資料的貢獻相對較小。</li>
+<li>例子：在氣象預測中，若以歷史平均溫度與變異度作為正態先驗，且新觀測資料極少，後驗仍接近原先的正態先驗。</li>
+<li>特色：後驗分佈與先驗分佈形狀相近，僅有微小調整。</li>
+</ul>
+<h2>弱資訊性先驗（Weakly Informative Prior）</h2>
+<ul>
+<li>定義：提供適度的約束，避免極端或不合理的估計，同時不過度限制結果。</li>
+<li>例子：設定明天中午氣溫的正態先驗，平均 50°F、標準差 40°F，僅將可能範圍限制在 10°F~90°F 之間，允許較寬的變動。</li>
+<li>目的：作為正則化手段，使推論結果保持在合理範圍內。</li>
+</ul>
+<h2>應用情境</h2>
+<ul>
+<li><strong>醫學診斷</strong>：利用過去臨床試驗的成功率作為 Beta 先驗，結合新患者的檢驗結果更新疾病發生機率。</li>
+<li><strong>機器學習正則化</strong>：在迴歸模型中，以正態先驗限制係數大小，防止過度擬合。</li>
+</ul>
+<h2>與其他頁面的關聯</h2>
+<ul>
+<li>先驗的基本概念請參見 <a href="#prior-probability">prior-probability</a>。</li>
+<li>無資訊性先驗的說明請見 <a href="#uninformative-prior">uninformative-prior</a>。</li>
+</ul>
+<h2>來源</h2>
+<ul>
+<li>prior_probability</li>
+</ul></section><section id="medical-diagnosis-example"><h1>Medical Diagnosis Example</h1>
+<p>本範例說明如何利用貝氏定理（<a href="#bayes-theorem">bayes-theorem</a>）計算患者在檢驗陽性時實際患病的機率。</p>
+<p>設
+- $E$：患者患有某疾病。
+- $F$：檢驗結果為陽性。</p>
+<p>已知資料：
+- $P(E)$：疾病的盛行率（先驗機率）。
+- $P(F|E)$：檢驗在真實患病時呈陽性的機率，稱為<strong>靈敏度（sensitivity）</strong>。
+- $P(F|\neg E)$：檢驗在未患病時呈陽性的機率，稱為<strong>偽陽性率（false‑positive rate）</strong>，其補數 $1-P(F|\neg E)$ 為特異度（specificity）。</p>
+<p>貝氏定理給出
+$$
+P(E|F)=\frac{P(F|E)\,P(E)}{P(F|E)\,P(E)+P(F|\neg E)\,P(\neg E)}
+$$
+此式的分母即為陽性結果的總機率，由全機率定理得到。</p>
+<p><strong>示意計算</strong>（僅示範概念，數值依原始資料未提供）：
+假設疾病盛行率 $P(E)=0.001$（千分之一），檢驗靈敏度 $P(F|E)=0.99$，偽陽性率 $P(F|\neg E)=0.02$。
+則
+$$
+P(E|F)=\frac{0.99\times0.001}{0.99\times0.001+0.02\times0.999}\approx0.047
+$$
+即約 4.7% 的陽性患者實際患病，說明僅憑陽性結果不能直接判斷疾病存在，需要考慮先驗與偽陽性率。</p>
+<p>此範例展示了貝氏定理在醫學決策中的實用性，也可延伸至其他領域的風險評估。</p>
+<h2>來源</h2>
+<p>bayes_theorem</p></section><section id="prior-probability"><h1>先驗機率（Prior Probability）</h1>
+<p>說明先驗機率與先驗分佈的定義、類型與建構方式。</p>
+<p>先驗機率（prior probability）是指在觀測資料加入前，對不確定量（例如模型參數或潛在變數）所假設的機率分佈。它描述了在沒有新證據時，我們對該量的信念。</p>
+<p>在貝氏統計（Bayesian statistics）中，貝氏定理（Bayes' rule）規定如何將先驗與新資料（概似）結合，得到後驗分佈（posterior distribution）
+$$
+\text{posterior} \propto \text{likelihood} \times \text{prior}.
+$$</p>
+<h2>先驗的建構方式</h2>
+<ul>
+<li><strong>過去資訊</strong>：利用先前實驗或歷史資料建立先驗。</li>
+<li><strong>專家意見</strong>：由有經驗的領域專家主觀評估。</li>
+<li><strong>不偏原則</strong>（principle of indifference）：在沒有資訊時，採用均勻或其他「不資訊」的先驗。</li>
+<li><strong>機械性考量</strong>：例如正則化（regularization）或特徵選取的需求。</li>
+<li><strong>層級先驗</strong>（hierarchical priors）：先驗本身可能有參數（超先驗），如 Beta 分佈的參數 $\alpha,\beta$ 為超先驗。</li>
+</ul>
+<h2>先驗的類型</h2>
+<ul>
+<li><strong>資訊性先驗（informative prior）</strong>：包含具體且明確的資訊，可能強烈影響後驗。</li>
+<li><strong>弱資訊性先驗（weakly informative prior）</strong>：提供適度的約束，防止極端估計，同時不過度限制結果。</li>
+<li><strong>無資訊性先驗（uninformative prior）</strong>：表達極少或沒有資訊，常以均勻或對稱形式呈現。</li>
+</ul>
+<h2>數學範例（Beta 先驗與二項概似）</h2>
+<p>考慮二項分佈的參數 $p$，若先驗選擇 Beta 分佈 $\text{Beta}(\alpha,\beta)$，則
+$$\pi(p) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} p^{\alpha-1}(1-p)^{\beta-1}.$$
+觀測到 $x$ 次成功、$n-x$ 次失敗的二項概似為 $\text{Binom}(n,p)$，其後驗仍為 Beta 分佈 $\text{Beta}(\alpha+x,\beta+n-x)$，顯示先驗與概似的共軛性。</p>
+<h2>與其他頁面的關聯</h2>
+<ul>
+<li>先驗的更新機制詳見 <a href="#bayesian-updating">bayesian-updating</a>。</li>
+<li>先驗類型的深入說明請參考 <a href="#informative-prior">informative-prior</a> 與 <a href="#uninformative-prior">uninformative-prior</a>。</li>
+</ul>
+<h2>來源</h2>
+<ul>
+<li>prior_probability</li>
+</ul></section><section id="uninformative-prior"><h1>無資訊性先驗（Uninformative Prior）</h1>
+<p>說明無資訊性先驗的定義、常見形式與哲學背景。</p>
+<p>無資訊性先驗（uninformative prior），亦稱平坦先驗（flat prior）或擴散先驗（diffuse prior），用來表示對變數幾乎沒有先驗資訊，只提供最小的限制。例如「變數為正」或「變數小於某上限」等客觀限制。</p>
+<h2>原則不偏性（Principle of Indifference）</h2>
+<ul>
+<li>依此原則，所有可能的結果被賦予相等機率。最簡單的例子是三個杯子 A、B、C 隱藏球的位置，均勻先驗 $p(A)=p(B)=p(C)=\frac13$。</li>
+<li>此種先驗在標籤置換下保持不變，符合對稱性原則。</li>
+</ul>
+<h2>常見形式</h2>
+<ul>
+<li><strong>均勻先驗</strong>：在有限區間 $[a,b]$ 上 $\pi(\theta)=\frac{1}{b-a}$。</li>
+<li><strong>Jeffreys 先驗</strong>：基於概似的 Fisher 資訊 $I(\theta)$，取 $\pi(\theta)\propto\sqrt{I(\theta)}$，具參數變換不變性。</li>
+<li><strong>Haldane 先驗</strong>：$\pi(p)\propto p^{-1}(1-p)^{-1}$，在完全不確定的二項參數情況下由對稱性推導而得（雖具爭議）。</li>
+</ul>
+<h2>與後驗的關係</h2>
+<p>在參數估計問題中，若使用無資訊性先驗，往往後驗主要由概似函數決定，結果與傳統頻率統計的估計值相近。</p>
+<h2>與其他頁面的關聯</h2>
+<ul>
+<li>先驗的基本概念與層級結構請見 <a href="#prior-probability">prior-probability</a>。</li>
+<li>資訊性先驗的比較與說明請參考 <a href="#informative-prior">informative-prior</a>。</li>
+</ul>
+<h2>來源</h2>
+<ul>
+<li>prior_probability</li>
+</ul></section><details><summary>Wiki 變更紀錄（log.md）</summary><h1>Wiki 變更紀錄</h1>
+<h2>[2026-11-13 14:20] ingest | bayes_theorem</h2>
+<ul>
+<li>使用者回饋：照建議</li>
+<li>寫入頁面：bayes-theorem, bayesian-inference, medical-diagnosis-example</li>
+<li>說明：新增 bayes-theorem、bayesian-inference、medical-diagnosis-example 三頁，說明定理、推論流程與醫學診斷範例。</li>
+</ul>
+<h2>[2026-11-13 14:23] ingest | base_rate_fallacy</h2>
+<ul>
+<li>使用者回饋：1.好 2.不用</li>
+<li>寫入頁面：base-rate-fallacy, false-positive-paradox</li>
+<li>說明：新增 base-rate-fallacy 與 false-positive-paradox 兩頁，說明概念、例子與貝氏推論關聯</li>
+</ul>
+<h2>[2026-11-13 14:24] ingest | base_rate_fallacy</h2>
+<ul>
+<li>使用者回饋：1.好 2.不用</li>
+<li>寫入頁面：base-rate-fallacy, false-positive-paradox</li>
+<li>說明：在 base-rate-fallacy 頁面加入醫學診斷連結，保持原有內容；更新 false-positive-paradox 內容保持一致。</li>
+</ul>
+<h2>[2026-11-13 14:25] ingest | bayesian_inference</h2>
+<ul>
+<li>使用者回饋：可以</li>
+<li>寫入頁面：bayesian-inference, bayesian-updating</li>
+<li>說明：在 bayesian-inference 頁面加入實務範例與非貝氏更新差異說明，並新增 bayesian-updating 子頁說明單次與多次更新流程</li>
+</ul>
+<h2>[2026-11-13 14:27] 人工修正 | false-positive-paradox</h2>
+<ul>
+<li>原因：ingest base_rate_fallacy 時使用者同意「新頁面加入 [[medical-diagnosis-example]] 連結」，重新生成後只有 base-rate-fallacy 加上</li>
+<li>修改：在「相關頁面」補上 [[medical-diagnosis-example]]</li>
+</ul>
+<h2>[2026-11-13 14:27] ingest | prior_probability</h2>
+<ul>
+<li>使用者回饋：好</li>
+<li>寫入頁面：prior-probability, informative-prior, uninformative-prior</li>
+<li>說明：新增先驗機率、資訊性先驗、無資訊性先驗三頁，並加入數學範例與應用說明</li>
+</ul>
+<h2>[2026-11-13 14:28] ingest | conjugate_prior</h2>
+<ul>
+<li>使用者回饋：不要</li>
+<li>寫入頁面：conjugate-prior, beta-binomial-example, gamma-poisson-example</li>
+<li>說明：新增共軛先驗及兩個具體範例頁面</li>
+</ul>
+<h2>[2026-11-13 14:29] ingest | credible_interval</h2>
+<ul>
+<li>使用者回饋：不用</li>
+<li>寫入頁面：credible-interval</li>
+<li>說明：新增 credible-interval 頁面，說明定義、類型、與信賴區間的比較及計算方法。</li>
+</ul>
+<h2>[2026-11-13 14:38] lint</h2>
+<ul>
+<li>斷連結：[]</li>
+<li>孤兒頁：['beta-binomial-example', 'gamma-poisson-example', 'conjugate-prior', 'credible-interval']</li>
+<li>LLM 檢查問題：</li>
+</ul>
+<h2>[2026-11-14 14:34] 人工修正 | 公式與用語</h2>
+<ul>
+<li>false-positive-paradox：<code>999 × 0.05 \approx 49.95</code> 不在 $…$ 內，wiki.html 顯示原始 LaTeX（lint 未抓到），補上 $…$</li>
+<li>用語統一為台灣習慣（似然→概似、分布→分佈、信息→資訊），影響 10 頁：base-rate-fallacy, bayes-theorem, bayesian-inference, bayesian-updating, beta-binomial-example, conjugate-prior, credible-interval, gamma-poisson-example, prior-probability, uninformative-prior</li>
+</ul></details></main></body></html>

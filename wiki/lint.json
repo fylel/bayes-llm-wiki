@@ -1,0 +1,10 @@
+{
+ "broken": [],
+ "orphans": [
+  "beta-binomial-example",
+  "gamma-poisson-example",
+  "conjugate-prior",
+  "credible-interval"
+ ],
+ "issues": []
+}

@@ -1,0 +1,81 @@
+source: https://en.wikipedia.org/wiki/Bayesian_inference
+
+Bayesian inference ( BAY-zee-ən or  BAY-zhən) is a method of statistical inference in which Bayes' theorem is used to calculate a probability of a hypothesis, given prior evidence, and update it as more information becomes available. Fundamentally, Bayesian inference uses a prior distribution to estimate posterior probabilities. Bayesian inference is an important technique in statistics, and especially in mathematical statistics. Bayesian updating is particularly important in the dynamic analysis of a sequence of data. Bayesian inference has found application in a wide range of activities, including science, engineering, philosophy, medicine, sport, psychology, and law. In the philosophy of decision theory, Bayesian inference is closely related to subjective probability, often called "Bayesian probability".
+
+
+== Introduction to Bayes' rule ==
+
+
+=== Formal explanation ===
+
+Bayesian inference derives the posterior probability as a consequence of two antecedents: a prior probability and a "likelihood function" derived from a statistical model for the observed data. Bayesian inference computes the posterior probability according to Bayes' theorem:
+P(H∣E)=P(E∣H)⋅P(H)P(E),
+where
+
+H stands for any hypothesis whose probability may be affected by data (called evidence below). Often there are competing hypotheses, and the task is to determine which is the most probable.
+P(H), the prior probability, is the estimate of the probability of the hypothesis H before the data E, the current evidence, is observed.
+E, the evidence, corresponds to new data that were not used in computing the prior probability.
+P(H∣E), the posterior probability, is the probability of H given E, i.e., after E is observed. This is what we want to know: the probability of a hypothesis given the observed evidence.
+P(E∣H) is the probability of observing E given H and is called the likelihood. It indicates the compatibility of the evidence with the given hypothesis. The likelihood function is a function of the hypothesis H, with the new evidence E being fixed.
+P(E) is sometimes termed the marginal likelihood or "model evidence". This factor is the same for all possible hypotheses being considered (as is evident from the fact that the hypothesis H does not appear anywhere in the symbol, unlike for all the other factors) and hence does not factor into determining the relative probabilities of different hypotheses.
+P(E)>0, since otherwise the denominator in Bayes' theorem is zero.
+For different values of H, only the factors P(H) and P(E∣H), both in the numerator, affect the value of P(H∣E) –  the posterior probability of a hypothesis is proportional to its prior probability (its inherent likeliness) and the newly acquired likelihood (its compatibility with the new observed evidence).
+In cases where ¬H ("not H"), the logical negation of H, is a valid likelihood, Bayes' rule can be rewritten as follows:
+P(H∣E)=P(E∣H)P(H)P(E)=P(E∣H)P(H)P(E∣H)P(H)+P(E∣¬H)P(¬H)=11+(1P(H)−1)P(E∣¬H)P(E∣H)
+because
+P(E)=P(E∣H)P(H)+P(E∣¬H)P(¬H)
+and
+P(H)+P(¬H)=1.
+This focuses attention on the term
+(1P(H)−1)P(E∣¬H)P(E∣H).
+If that term is approximately 1, then the probability of the hypothesis given the evidence, P(H∣E), is about 12, about 50% likely - equally likely or not likely. If that term is very small, close to zero, then the probability of the hypothesis, given the evidence, P(H∣E) is close to 1 or the conditional hypothesis is quite likely. If that term is very large, much larger than 1, then the hypothesis, given the evidence, is quite unlikely. If the hypothesis (without consideration of evidence) is unlikely, then P(H) is small (but not necessarily astronomically small) and 1P(H) is much larger than 1 and this term can be approximated as P(E∣¬H)P(E∣H)⋅P(H) and relevant probabilities can be compared directly to each other.
+One quick and easy way to remember the equation would be to use rule of multiplication:
+P(E∩H)=P(E∣H)P(H)=P(H∣E)P(E).
+
+
+=== Alternatives to Bayesian updating ===
+Bayesian updating is widely used and computationally convenient. However, it is not the only updating rule that might be considered rational.
+Ian Hacking noted that traditional "Dutch book" arguments did not specify Bayesian updating: they left open the possibility that non-Bayesian updating rules could avoid Dutch books. Hacking wrote: "And neither the Dutch book argument nor any other in the personalist arsenal of proofs of the probability axioms entails the dynamic assumption. Not one entails Bayesianism. So the personalist requires the dynamic assumption to be Bayesian. It is true that in consistency a personalist could abandon the Bayesian model of learning from experience. Salt could lose its savour."
+Indeed, there are non-Bayesian updating rules that also avoid Dutch books (as discussed in the literature on "probability kinematics") following the publication of Richard C. Jeffrey's rule, which applies Bayes' rule to the case where the evidence itself is assigned a probability. The additional hypotheses needed to uniquely require Bayesian updating have been deemed to be substantial, complicated, and unsatisfactory.
+
+
+== Inference over exclusive and exhaustive possibilities ==
+If evidence is simultaneously used to update belief over a set of exclusive and exhaustive propositions, Bayesian inference may be thought of as acting on this belief distribution as a whole.
+
+
+=== General formulation ===
+
+Suppose a process is generating independent and identically distributed events En, n=1,2,3,…, but the probability distribution is unknown. Let the event space Ω represent the current state of belief for this process. Each model is represented by event Mm. The conditional probabilities P(En∣Mm) are specified to define the models. P(Mm) is the degree of belief in Mm. Before the first inference step, {P(Mm)} is a set of initial prior probabilities. These must sum to 1, but are otherwise arbitrary.
+Suppose that the process is observed to generate E∈{En}. For each M∈{Mm}, the prior P(M) is updated to the posterior P(M∣E). From Bayes' theorem:
+P(M∣E)=P(E∣M)∑mP(E∣Mm)P(Mm)⋅P(M).
+Upon observation of further evidence, this procedure may be repeated.
+
+
+=== Multiple observations ===
+For a sequence of independent and identically distributed observations 𝐄=(e1,…,en), it can be shown by induction that repeated application of the above is equivalent to
+P(M∣𝐄)=P(𝐄∣M)∑mP(𝐄∣Mm)P(Mm)⋅P(M),
+where
+P(𝐄∣M)=∏kP(ek∣M).
+
+
+=== Parametric formulation: motivating the formal description ===
+By parameterizing the space of models, the belief in all models may be updated in a single step. The distribution of belief over the model space may then be thought of as a distribution of belief over the parameter space. The distributions in this section are expressed as continuous, represented by probability densities, as this is the usual situation. The technique is, however, equally applicable to discrete distributions.
+Let the vector 𝜽 span the parameter space. Let the initial prior distribution over 𝜽 be p(𝜽∣𝜶), where 𝜶 is a set of parameters to the prior itself, or hyperparameters. Let 𝐄=(e1,…,en) be a sequence of independent and identically distributed event observations, where all ei are distributed as p(e∣𝜽) for some 𝜽. Bayes' theorem is applied to find the posterior distribution over 𝜽:
+p(𝜽∣𝐄,𝜶)=p(𝐄∣𝜽,𝜶)p(𝐄∣𝜶)⋅p(𝜽∣𝜶)=p(𝐄∣𝜽,𝜶)∫p(𝐄∣𝜽,𝜶)p(𝜽∣𝜶)d𝜽⋅p(𝜽∣𝜶),
+where
+p(𝐄∣𝜽,𝜶)=∏kp(ek∣𝜽).
+
+
+== Formal description ==
+
+
+=== Definitions ===
+x, a data point in general.  This may be a vector of values.
+θ, the parameter of the data point's distribution, i.e., x∼p(x∣θ).  This may be a vector of parameters.
+α, the hyperparameter of the parameter distribution, i.e., θ∼p(θ∣α).  This may be a vector of hyperparameters.
+𝐗 is the sample, a set of n observed data points, i.e., x1,…,xn.
+x~, a new data point whose distribution is to be predicted.
+
+
+=== Bayesian inference ===
+The prior distribution is the distribution of the parameter(s) before any data is observed, i.e. p(θ∣α) . The prior distribution m

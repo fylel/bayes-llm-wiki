@@ -1,0 +1,56 @@
+source: https://en.wikipedia.org/wiki/Conjugate_prior
+
+In Bayesian probability theory, if, given a likelihood function  p(x∣θ),  the posterior distribution p(θ∣x) is in the same probability distribution family as the prior probability distribution p(θ), the prior and posterior are then called conjugate distributions with respect to that  likelihood function and the prior is called a conjugate prior for the likelihood function p(x∣θ). 
+A conjugate prior is an algebraic convenience, giving a closed-form expression for the posterior; otherwise, numerical integration may be necessary. Further, conjugate priors may clarify how a likelihood function updates a prior distribution.
+The concept, as well as the term "conjugate prior", were introduced by Howard Raiffa and Robert Schlaifer in their work on Bayesian decision theory. A similar concept had been discovered independently by George Alfred Barnard.
+
+
+== Example ==
+The form of the conjugate prior can generally be determined by inspection of the probability density or probability mass function of a distribution.  For example, consider a random variable which consists of the number of successes s in n Bernoulli trials with unknown probability of success q in [0,1].  This random variable will follow the binomial distribution, with a probability mass function of the form
+
+p(s)=(ns)qs(1−q)n−s
+The usual conjugate prior is the beta distribution with parameters (α, β):
+
+p(q)=qα−1(1−q)β−1B(α,β)
+where α and β are chosen to reflect any existing belief or information (α=1 and β=1 would give a uniform distribution) and B(α,β) is the Beta function acting as a normalising constant.
+In this context, α and β are called hyperparameters (parameters of the prior), to distinguish them from parameters of the underlying model (here q).  A typical characteristic of conjugate priors is that the dimensionality of the hyperparameters is one greater than that of the parameters of the original distribution. If all parameters are scalar values, then there will be one more hyperparameter than parameter; but this also applies to vector-valued and matrix-valued parameters. (See the general article on the exponential family, and also consider the Wishart distribution, conjugate prior of the covariance matrix of a multivariate normal distribution, for an example where a large dimensionality is involved.)
+If we sample this random variable and get s successes and f=n−s failures, then we have
+
+P(s,f∣q=x)=(s+fs)xs(1−x)f,P(q=x)=xα−1(1−x)β−1B(α,β),P(q=x∣s,f)=P(s,f∣x)P(x)∫P(s,f∣y)P(y)dy=(s+fs)xs+α−1(1−x)f+β−1/B(α,β)∫y=01((s+fs)ys+α−1(1−y)f+β−1/B(α,β))dy=xs+α−1(1−x)f+β−1B(s+α,f+β),
+which is another Beta distribution with parameters (α+s,β+f).  This posterior distribution could then be used as the prior for more samples, with the hyperparameters simply adding each extra piece of information as it comes.
+
+
+== Interpretations ==
+
+
+=== Pseudo-observations ===
+It is often useful to think of the hyperparameters of a conjugate prior distribution corresponding to having observed a certain number of pseudo-observations with properties specified by the parameters.  For example, the values α and β of a beta distribution can be thought of as corresponding to α−1 successes and β−1 failures if the posterior mode is used to choose an optimal parameter setting, or α successes and β failures if the posterior mean is used to choose an optimal parameter setting.  In general, for nearly all conjugate prior distributions, the hyperparameters can be interpreted in terms of pseudo-observations.  This can help provide intuition behind the often messy update equations and help choose reasonable hyperparameters for a prior.
+
+
+=== Dynamical system ===
+One can think of conditioning on conjugate priors as defining a kind of (discrete time) dynamical system: from a given set of hyperparameters, incoming data updates these hyperparameters, so one can see the change in hyperparameters as a kind of "time evolution" of the system, corresponding to "learning". Starting at different points yields different flows over time. This is again analogous with the dynamical system defined by a linear operator, but note that since different samples lead to different inferences, this is not simply dependent on time but rather on data over time. For related approaches, see Recursive Bayesian estimation and Data assimilation.
+
+
+== Practical example ==
+Suppose a rental car service operates in your city. Drivers can drop off and pick up cars anywhere inside the city limits. You can find and rent cars using an app.
+Suppose you wish to find the probability that you can find a rental car within a short distance of your home address at any time of day.
+Over three days you look at the app and find the following number of cars within a short distance of your home address: 𝐱=[3,4,1]
+Suppose we assume the data comes from a Poisson distribution. In that case, we can compute the maximum likelihood estimate of the parameters of the model, which is λ=3+4+13≈2.67. Using this maximum likelihood estimate, we can compute the probability that there will be at least one car available on a given day: p(x>0|λ≈2.67)=1−p(x=0|λ≈2.67)=1−2.670e−2.670!≈0.93
+This is the Poisson distribution that is the most likely to have generated the observed data 𝐱. But the data could also have come from another Poisson distribution, e.g., one with λ=3, or λ=2, etc. In fact, there is an infinite number of Poisson distributions that could have generated the observed data. With relatively few data points, we should be quite uncertain about which exact Poisson distribution generated this data. Intuitively we should instead take a weighted average of the probability of p(x>0|λ) for each of those Poisson distributions, weighted by how likely they each are, given the data we've observed 𝐱.
+Generally, this quantity is known as the posterior predictive distribution  p(x|𝐱)=∫θp(x|θ)p(θ|𝐱)dθ, where x is a new data point, 𝐱 is the observed data and θ are the parameters of the model. Using Bayes' theorem we can expand p(θ|𝐱)=p(𝐱|θ)p(θ)p(𝐱), therefore p(x|𝐱)=∫θp(x|θ)p(𝐱|θ)p(θ)p(𝐱)dθ. Generally, this integral is hard to compute. However, if you choose a conjugate prior distribution p(θ), a closed-form expression can be derived. This is the posterior predictive column in the tables below.
+Returning to our example, if we pick the Gamma distribution as our prior distribution over the rate of the Poisson distributions, then the posterior predictive is the negative binomial distribution, as can be seen from the table below. The Gamma distribution is parameterized by two hyperparameters α,β, which we have to choose. By looking at plots of the gamma distribution, we pick α=β=2, which seems to be a reasonable prior for the average number of cars. The choice of prior hyperparameters is inherently subjective and based on prior knowledge.
+Given the prior hyperparameters α and β we can compute the posterior hyperparameters α′=α+∑ixi=2+3+4+1=10 and β′=β+n=2+3=5
+Given the posterior hyperparameters, we can finally compute the posterior predictive of p(x>0|𝐱)=1−p(x=0|𝐱)=1−NB(0|10,51+5)≈0.84
+This much more conservative estimate reflects the uncertainty in the model parameters, which the posterior predictive takes into account.
+
+
+== Table of conjugate distributions ==
+Let n denote the number of observations. In all cases below, the data is assumed to consist of n points x1,…,xn (which will be random vectors in the multivariate cases).
+If the likelihood function belongs to the exponential family, then a conjugate prior exists, often also in the exponential family; see Exponential family: Conjugate distributions.
+
+
+=== When the likelihood function is a discrete distribution ===
+
+
+=== When likelihood function is a continuous distribution ===
+

@@ -1,0 +1,43 @@
+{
+ "source": "bayes_theorem",
+ "discussion": {
+  "summary": "這份資料說明貝氏定理（Bayes' theorem）的概念、歷史背景、數學式與醫學診斷等範例，並提到其在貝氏推論中的角色。",
+  "key_points": [
+   "貝氏定理提供從條件機率反推原因機率的公式。",
+   "公式：$P(A|B)=\\frac{P(B|A)P(A)}{P(B)}$，其中 $P(A)$ 為先驗機率，$P(A|B)$ 為後驗機率。",
+   "若事件 $A_i$ 為互斥且完整，則可使用全機率定理擴展：$P(A_i|B)=\\frac{P(A_i)P(B|A_i)}{\\sum_j P(A_j)P(B|A_j)}$。",
+   "歷史上由 Thomas Bayes 於 18 世紀提出，後由 Pierre‑Simon Laplace 獨立發展並擴充。",
+   "貝氏定理是貝氏推論（Bayesian inference）的核心，用於把似然函數（likelihood）與先驗結合得到後驗分佈（posterior distribution）。",
+   "醫學診斷是常見範例：利用疾病盛行率與檢驗靈敏度/特異度計算陽性結果的後驗機率。"
+  ],
+  "conflicts": [],
+  "proposed_pages": [
+   {
+    "name": "bayes-theorem",
+    "action": "create",
+    "reason": "說明貝氏定理的定義、推導與基本範例，是貝氏統計入門的基礎頁面。"
+   },
+   {
+    "name": "bayesian-inference",
+    "action": "create",
+    "reason": "資料中提到貝氏推論是貝氏定理的主要應用，需要獨立說明概念與流程。"
+   },
+   {
+    "name": "medical-diagnosis-example",
+    "action": "create",
+    "reason": "提供醫學診斷的具體計算示例，幫助初學者理解公式的實際運用。"
+   }
+  ],
+  "questions": [
+   "您希望在範例中使用哪種情境（例如醫學診斷、藥物測試或其他）作為主要示範？",
+   "是否需要在頁面中加入貝氏定理的圖示或直觀說明，以協助初學者更快掌握概念？"
+  ]
+ },
+ "notes": "照建議",
+ "written": [
+  "bayes-theorem",
+  "bayesian-inference",
+  "medical-diagnosis-example"
+ ],
+ "problems": []
+}

@@ -1,0 +1,674 @@
+[
+ {
+  "t": 3.2,
+  "node": "check_plan",
+  "status": "ok",
+  "detail": "第1版大綱 7 張：通過"
+ },
+ {
+  "t": 3.2,
+  "node": "compute_facts",
+  "status": "info",
+  "detail": "略過（v1 模式：讓 LLM 自己算）"
+ },
+ {
+  "t": 3.2,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#1 什麼是先驗機率與後驗機率？ ← ['prior-probability', 'bayesian-updating', 'informative-prior']"
+ },
+ {
+  "t": 4.3,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#1 第1版：通過"
+ },
+ {
+  "t": 4.3,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#1 第1版：通過"
+ },
+ {
+  "t": 5.6,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#1 第1版：初學者不易懂，未定義術語：['似然', '證據的邊際機率', '遞迴更新']; 審稿建議：1. 在第一張投影片加入「似然」的簡要說明，例如：'似然是給定參數時觀測到資料的機率'。 2. 解釋「證據的邊際機率」為何需要，並給出計算方式的直觀描述。 3. 將「遞迴更新」改寫為「逐次更新」或在備註中說明其含義，避免使用未解釋的術語。 4. 若時間允許，可在例子中加入硬幣投擲或醫學檢測的具體數值示範，幫助學生把抽象概念具體化。"
+ },
+ {
+  "t": 5.6,
+  "node": "draft",
+  "status": "info",
+  "detail": "#1 第1版不過，重新生成"
+ },
+ {
+  "t": 23.0,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#1 第2版：通過"
+ },
+ {
+  "t": 23.0,
+  "node": "check.numeric",
+  "status": "fail",
+  "detail": "#1 第2版：後驗平均寫成 0.75，正確是 0.6429（Beta(9,5)）"
+ },
+ {
+  "t": 23.0,
+  "node": "draft",
+  "status": "info",
+  "detail": "#1 第2版不過，重新生成"
+ },
+ {
+  "t": 42.4,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#1 第3版：通過"
+ },
+ {
+  "t": 42.4,
+  "node": "check.numeric",
+  "status": "fail",
+  "detail": "#1 第3版：後驗平均寫成 0.667，正確是 0.6429（Beta(9,5)）"
+ },
+ {
+  "t": 42.4,
+  "node": "draft",
+  "status": "flag",
+  "detail": "#1 第3版不過，已達上限，標記⚑待人工確認"
+ },
+ {
+  "t": 42.4,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#2 貝氏定理：從條件機率到原因機率 ← ['bayes-theorem', 'prior-probability']"
+ },
+ {
+  "t": 57.4,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 57.4,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 80.4,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#2 第1版：初學者不易懂，未定義術語：['靈敏度', '偽陽性率', '全機率定理']; 審稿建議：整體內容與 Wiki 資料相符，統計概念正確。建議在投影片中加入簡短定義：\n- 靈敏度 (Sensitivity) = P(陽性|有病)\n- 偽陽性率 (False Positive Rate) = P(陽性|無病)\n- 全機率定理的說明與公式，讓未接觸過的學生能立即理解。可在例子後補充計算步驟，展示分母 P(B) 的展開，以避免概念跳躍。"
+ },
+ {
+  "t": 80.4,
+  "node": "draft",
+  "status": "info",
+  "detail": "#2 第1版不過，重新生成"
+ },
+ {
+  "t": 103.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#2 第2版：通過"
+ },
+ {
+  "t": 103.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第2版：通過"
+ },
+ {
+  "t": 123.1,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#2 第2版：缺乏 Wiki 依據或觀念錯誤：['似然 $P(B|A)$：在 A 成立時觀測到 B 的機率，稱為靈敏度。', '偽陽性率 $P(B|\\\\neg A)$：無病時仍出現陽性的機率。']; 初學者不易懂，未定義術語：['靈敏度', '偽陽性率']; 審稿建議：1. 將「靈敏度」改為「似然」或在說明中註明：在醫學檢驗中，似然常被稱為靈敏度。2. 為「偽陽性率」加上簡短定義，例如「在實際沒有疾病的情況下，檢驗仍顯示陽性的機率」。3. 若保留醫學比喻，建議在投影片註記這些術語來源於醫學檢驗，並提供對應的數學符號說明，以免與 Wiki 中的純粹機率概念產生混淆。4. 其餘重點皆可在 Wiki 內容找到支持，公式與全機率定理的說明亦正確。"
+ },
+ {
+  "t": 123.1,
+  "node": "draft",
+  "status": "info",
+  "detail": "#2 第2版不過，重新生成"
+ },
+ {
+  "t": 143.8,
+  "node": "draft",
+  "status": "info",
+  "detail": "（改分類：API 限流不算節點錯誤）API 錯誤，10s 後重試：An error occurred: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m51nvnxreq0sw0hw8p01thv8` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 4602, Requested 3489. Please try again in 682.5ms. Need more tokens? U"
+ },
+ {
+  "t": 155.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#2 第3版：通過"
+ },
+ {
+  "t": 155.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第3版：通過"
+ },
+ {
+  "t": 163.2,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#2 第3版：通過"
+ },
+ {
+  "t": 163.2,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#2 第3版通過"
+ },
+ {
+  "t": 163.2,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#3 基礎率謬誤：忽略先驗的危險 ← ['base-rate-fallacy', 'informative-prior']"
+ },
+ {
+  "t": 181.4,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#3 第1版：通過"
+ },
+ {
+  "t": 181.4,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第1版：通過"
+ },
+ {
+  "t": 200.3,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#3 第1版：初學者不易懂，未定義術語：['靈敏度', '事後機率', '似然', 'posterior']; 審稿建議：內容大體正確且都有 Wiki 依據。建議在投影片中加入以下說明：\n1. 定義「靈敏度」(Sensitivity) 為 P(+|D)；\n2. 解釋「事後機率」即貝氏定理算出的 P(D|+)；\n3. 簡要說明「似然」是檢驗結果在不同假設下的機率；\n4. 在公式下方或註解中說明「posterior」指的就是事後機率。加入這些定義後，初學者即可完全理解。"
+ },
+ {
+  "t": 200.3,
+  "node": "draft",
+  "status": "info",
+  "detail": "#3 第1版不過，重新生成"
+ },
+ {
+  "t": 221.1,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#3 第2版：通過"
+ },
+ {
+  "t": 221.1,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第2版：通過"
+ },
+ {
+  "t": 237.5,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#3 第2版：缺乏 Wiki 依據或觀念錯誤：['靈敏度（Sensitivity）＝P(+|D)，即疾病時測出陽性的機率。']; 初學者不易懂，未定義術語：['靈敏度', '偽陽性率']; 審稿建議：1. 為了確保每個重點都有來源，請在投影片中加入對「靈敏度」的說明，並引用相關的 Wiki 條目（例如在 Bayes 定理的說明中提到 P(+|D) 為靈敏度）。\n2. 若要讓未學過貝氏統計的學生易於理解，建議在首次出現「偽陽性率」時加註說明，例如「偽陽性率（false positive rate）是指在沒有疾病時測驗仍呈陽性的機率」。\n3. 其餘內容（基礎率、事後機率、似然、公式）均可在提供的 Wiki 內容中找到支持，說明清晰。"
+ },
+ {
+  "t": 237.5,
+  "node": "draft",
+  "status": "info",
+  "detail": "#3 第2版不過，重新生成"
+ },
+ {
+  "t": 262.2,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#3 第3版：通過"
+ },
+ {
+  "t": 262.2,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第3版：通過"
+ },
+ {
+  "t": 276.1,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#3 第3版：缺乏 Wiki 依據或觀念錯誤：['靈敏度（sensitivity）＝P(+|D)：有病時測出陽性的機率。']; 審稿建議：1. 為了符合 grounding，請在投影片或註腳中加入對「靈敏度」的說明來源，或改寫為「測試的正確率（sensitivity）」，並在 Wiki 內容中加入相應說明。 2. 若引用 Bayes 定理，建議在 sources 中加入 [[bayesian-inference]] 或在說明中明確指出公式來源。 3. 其餘概念皆已在 Wiki 中有支撐，文字簡潔，適合未學過貝氏統計的大學生。"
+ },
+ {
+  "t": 276.1,
+  "node": "draft",
+  "status": "flag",
+  "detail": "#3 第3版不過，已達上限，標記⚑待人工確認"
+ },
+ {
+  "t": 276.1,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#4 貝氏推論：結合先驗與似然 ← ['bayesian-inference', 'prior-probability']"
+ },
+ {
+  "t": 296.1,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#4 第1版：通過"
+ },
+ {
+  "t": 296.1,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#4 第1版：通過"
+ },
+ {
+  "t": 315.0,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#4 第1版：通過"
+ },
+ {
+  "t": 315.0,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#4 第1版通過"
+ },
+ {
+  "t": 315.0,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#5 共軛先驗與 Beta‑Binomial 範例 ← ['conjugate-prior', 'beta-binomial-example', 'prior-probability']"
+ },
+ {
+  "t": 341.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#5 第1版：通過"
+ },
+ {
+  "t": 341.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#5 第1版：通過"
+ },
+ {
+  "t": 365.1,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#5 第1版：通過"
+ },
+ {
+  "t": 365.1,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#5 第1版通過"
+ },
+ {
+  "t": 365.1,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#6 可信區間：從點估計到區間估計 ← ['credible-interval', 'bayesian-inference']"
+ },
+ {
+  "t": 383.1,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#6 第1版：通過"
+ },
+ {
+  "t": 383.1,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#6 第1版：通過"
+ },
+ {
+  "t": 396.7,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#6 第1版：初學者不易懂，未定義術語：['後驗分佈', '最高密度區間', 'MCMC', '解析法', '等尾可信區間', '最小可信區間']; 審稿建議：建議在投影片中加入簡短定義：\n- 後驗分佈：結合先驗與資料後得到的參數分佈。\n- 最高密度區間（最小可信區間）：密度最高的區間，包含指定機率。\n- 等尾可信區間：取兩側分位數形成的區間。\n- 解析法：利用已知分布的公式直接計算分位數或密度等高線。\n- MCMC：一種透過隨機抽樣近似後驗分佈的方法，可簡要說明如「馬可夫鏈蒙特卡羅」。\n此外，可在「參數是隨機的」說明後，加上一兩句關於先驗的概念，避免聽眾誤以為參數本身隨機。"
+ },
+ {
+  "t": 396.7,
+  "node": "draft",
+  "status": "info",
+  "detail": "#6 第1版不過，重新生成"
+ },
+ {
+  "t": 419.7,
+  "node": "draft",
+  "status": "info",
+  "detail": "JSON 有未跳脫的反斜線，已在本地修復：Invalid \\escape: line 6 column 37 (char 180)"
+ },
+ {
+  "t": 419.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#6 第2版：通過"
+ },
+ {
+  "t": 419.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#6 第2版：通過"
+ },
+ {
+  "t": 436.7,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#6 第2版：初學者不易懂，未定義術語：['MCMC（馬可夫鏈蒙特卡羅）', '最高密度區間（smallest credible interval）', '等尾可信區間（median credible interval）', '模式（mode）', 'γ（可信水平）']; 審稿建議：1. 在第一張投影片或備註中加入 MCMC 的簡短說明，例如「MCMC 是一種透過隨機抽樣近似後驗分布的方法」。\n2. 為「最高密度區間」與「等尾可信區間」各提供一句定義，並說明它們與「可信區間」的關係。\n3. 解釋「模式」是指分布密度最高的點，並說明在單峰分布時會落在最高密度區間內。\n4. 在公式下方說明 γ 代表所欲的可信水平（如 0.95），避免直接使用符號而不說明。\n5. 若篇幅允許，可加入一個簡單的硬幣投擲例子，展示先驗、似然、後驗以及如何從後驗抽樣得到等尾或最高密度區間，讓沒有貝氏背景的同學更易理解。"
+ },
+ {
+  "t": 436.7,
+  "node": "draft",
+  "status": "info",
+  "detail": "#6 第2版不過，重新生成"
+ },
+ {
+  "t": 461.5,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#6 第3版：通過"
+ },
+ {
+  "t": 461.5,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#6 第3版：通過"
+ },
+ {
+  "t": 481.7,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#6 第3版：缺乏 Wiki 依據或觀念錯誤：['投擲硬幣：先驗假設硬幣正面機率 0.5，觀測 8 次正面、2 次反面，得到後驗分布。用 MCMC 抽樣後，可計算 95% 等尾區間 $[q_{0.025}, q_{0.975}]$ 或最高密度區間。']; 初學者不易懂，未定義術語：['MCMC（馬可夫鏈蒙特卡羅）', '先驗', '後驗分布', '模式']; 審稿建議：1. 將硬幣例子改寫為與 Wiki 內容直接相關的說明，或在投影片註記此為額外示例。2. 為所有專有名詞提供簡短定義，例如在第一張投影片加入「先驗：在觀測資料之前對參數的信念」等說明。3. 考慮加入圖示說明等尾區間與最高密度區間的差異，並明確標示 γ 的含義。4. 若保留 MCMC 例子，需在備註或腳註中說明其基本概念，避免出現未解釋的縮寫。"
+ },
+ {
+  "t": 481.7,
+  "node": "draft",
+  "status": "flag",
+  "detail": "#6 第3版不過，已達上限，標記⚑待人工確認"
+ },
+ {
+  "t": 481.7,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#7 實務應用：疾病篩檢的貝氏更新 ← ['medical-diagnosis-example', 'false-positive-paradox', 'prior-probability']"
+ },
+ {
+  "t": 506.2,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#7 第1版：通過"
+ },
+ {
+  "t": 506.2,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#7 第1版：通過"
+ },
+ {
+  "t": 528.0,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#7 第1版：缺乏 Wiki 依據或觀念錯誤：['「檢驗靈敏度高達 90%」的數值未在 Wiki 內容中出現，Wiki 中的例子使用 0.99 或 0.99 的靈敏度。', '計算得到的後驗機率 0.1538 與 Wiki 中提供的示例數值不符，且 Wiki 未給出對應的先驗機率 1% 與偽陽性率 5% 的組合，因此此具體結果缺乏依據。']; 審稿建議：建議將數值調整為與 Wiki 例子一致，或在投影片說明中註明所使用的參數來源。例如，可使用 Wiki 中的 0.001、0.99、0.02 參數得到約 4.7% 的後驗機率，或在說明中加入對 1% 先驗與 5% 偽陽性率的來源說明。其他概念與術語均已在 Wiki 中定義，適合基礎機率背景的學生。"
+ },
+ {
+  "t": 528.0,
+  "node": "draft",
+  "status": "info",
+  "detail": "#7 第1版不過，重新生成"
+ },
+ {
+  "t": 555.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#7 第2版：通過"
+ },
+ {
+  "t": 555.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#7 第2版：通過"
+ },
+ {
+  "t": 578.2,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#7 第2版：通過"
+ },
+ {
+  "t": 578.2,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#7 第2版通過"
+ },
+ {
+  "t": 591.2,
+  "node": "deck_review",
+  "status": "fail",
+  "detail": "整體結構清晰，概念逐步深化，但部分關鍵術語（如似然、先驗）出現順序不佳，導致初學者可能感到困惑。調整上述三張投影片的內容與順序，可提升概念的前置鋪陳與避免重複，使學習流程更流暢。｜需修改 [1, 2, 3]"
+ },
+ {
+  "t": 591.2,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#1 什麼是先驗機率與後驗機率？ ← ['prior-probability', 'bayesian-updating', 'informative-prior']"
+ },
+ {
+  "t": 612.0,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#1 第1版：通過"
+ },
+ {
+  "t": 612.0,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#1 第1版：通過"
+ },
+ {
+  "t": 616.9,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#1 第1版：初學者不易懂，未定義術語：['Beta(α,β) 分佈']; 審稿建議：建議在投影片中加入簡短說明：Beta 分佈是一種常用於描述機率 p (0~1) 的先驗分佈，參數 α、β 控制其形狀。可以用一句話或圖示說明，讓未接觸過貝氏統計的學生能理解。其餘內容已符合維基來源且概念正確。"
+ },
+ {
+  "t": 616.9,
+  "node": "draft",
+  "status": "info",
+  "detail": "#1 第1版不過，重新生成"
+ },
+ {
+  "t": 639.9,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#1 第2版：通過"
+ },
+ {
+  "t": 639.9,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#1 第2版：通過"
+ },
+ {
+  "t": 659.4,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#1 第2版：通過"
+ },
+ {
+  "t": 659.4,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#1 第2版通過"
+ },
+ {
+  "t": 659.4,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#2 貝氏定理：從條件機率到原因機率 ← ['bayes-theorem', 'prior-probability']"
+ },
+ {
+  "t": 677.3,
+  "node": "check.rule",
+  "status": "fail",
+  "detail": "#2 第1版：重點過長：['把全機率式代入貝氏公式，可得到…', '圖示上，先驗 $P(A_i)$…']"
+ },
+ {
+  "t": 677.3,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 677.3,
+  "node": "draft",
+  "status": "info",
+  "detail": "#2 第1版不過，重新生成"
+ },
+ {
+  "t": 709.2,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#2 第2版：通過"
+ },
+ {
+  "t": 709.2,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第2版：通過"
+ },
+ {
+  "t": 709.4,
+  "node": "check.judge",
+  "status": "info",
+  "detail": "請求過大或每日額度用完，停止：An error occurred: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m51nvnxreq0sw0hw8p01thv8` service tier `on_demand` on tokens per d"
+ },
+ {
+  "t": 0.0,
+  "node": "resume",
+  "status": "info",
+  "detail": "從檢查點接續：已完成 7 張投影片"
+ },
+ {
+  "t": 0.0,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#2 貝氏定理：從條件機率到原因機率 ← ['bayes-theorem', 'prior-probability']"
+ },
+ {
+  "t": 1.3,
+  "node": "draft",
+  "status": "info",
+  "detail": "每日額度用完，等待回補 13.7 分鐘"
+ },
+ {
+  "t": 828.8,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 828.8,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 829.0,
+  "node": "check.judge",
+  "status": "info",
+  "detail": "每日額度用完，等待回補 14.4 分鐘"
+ },
+ {
+  "t": 1695.8,
+  "node": "check.judge",
+  "status": "ok",
+  "detail": "#2 第1版：通過"
+ },
+ {
+  "t": 1695.8,
+  "node": "draft",
+  "status": "ok",
+  "detail": "#2 第1版通過"
+ },
+ {
+  "t": 1695.9,
+  "node": "retrieve",
+  "status": "ok",
+  "detail": "#3 基礎率謬誤：忽略先驗的危險 ← ['base-rate-fallacy', 'informative-prior']"
+ },
+ {
+  "t": 1696.0,
+  "node": "draft",
+  "status": "info",
+  "detail": "每日額度用完，等待回補 6.9 分鐘"
+ },
+ {
+  "t": 2148.7,
+  "node": "check.rule",
+  "status": "fail",
+  "detail": "#3 第1版：重點過長：['先驗機率（prior prob…', '測試的靈敏度（sensitiv…']"
+ },
+ {
+  "t": 2148.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第1版：通過"
+ },
+ {
+  "t": 2148.7,
+  "node": "draft",
+  "status": "info",
+  "detail": "#3 第1版不過，重新生成"
+ },
+ {
+  "t": 2148.9,
+  "node": "draft",
+  "status": "info",
+  "detail": "每日額度用完，等待回補 20.3 分鐘"
+ },
+ {
+  "t": 8185.0,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#3 第2版：通過"
+ },
+ {
+  "t": 8185.0,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第2版：通過"
+ },
+ {
+  "t": 8186.6,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#3 第2版：初學者不易懂，未定義術語：['靈敏度 (sensitivity)', '偽陽性率 (false positive rate)', 'P(¬D) 或 ¬D 的概念', '後驗機率 (posterior probability) 的說明']; 審稿建議：建議在投影片中加入簡短定義：\n- 靈敏度：當患者真的有疾病時，測試顯示陽性的機率。\n- 偽陽性率：當患者沒有疾病時，測試錯誤顯示陽性的機率。\n- ¬D 表示「沒有疾病」的事件，P(¬D) 為其先驗機率，等於 1‑P(D)。\n- 後驗機率：在得到測試結果（陽性）後，重新評估患者真的有疾病的機率，即公式右側的 P(D|+)。\n加入這些說明後，內容對未接觸貝氏統計的學生會更易理解。"
+ },
+ {
+  "t": 8186.6,
+  "node": "draft",
+  "status": "info",
+  "detail": "#3 第2版不過，重新生成"
+ },
+ {
+  "t": 8188.7,
+  "node": "check.rule",
+  "status": "ok",
+  "detail": "#3 第3版：通過"
+ },
+ {
+  "t": 8188.7,
+  "node": "check.numeric",
+  "status": "ok",
+  "detail": "#3 第3版：通過"
+ },
+ {
+  "t": 8203.7,
+  "node": "check.judge",
+  "status": "fail",
+  "detail": "#3 第3版：缺乏 Wiki 依據或觀念錯誤：['靈敏度（sensitivity）指真的有病時測驗顯示陽性的機率。', '公式雖然正確，但在 Wiki 內容中未直接給出此形式的 Bayes 定理表達式。']; 初學者不易懂，未定義術語：['靈敏度（sensitivity）', 'P(¬D) 的寫法']; 審稿建議：1. 在投影片中加入對「靈敏度」的說明，並註明其在 Wiki 中屬於隱含概念（與偽陽性率一起構成測試的條件機率）。\n2. 在公式說明前補充一句：根據 Bayes 定理，可寫成 P(D|+) = …，即使 Wiki 未直接給出此式，也可說明其來源。\n3. 為避免混淆，將 ¬D（沒有疾病）寫成「未患病」或直接使用「沒有疾病」的文字說明，並在首次出現時解釋其先驗機率為 1‑P(D)。\n4. 其餘內容（先驗機率、偽陽性率、基礎率謬誤的概念）均可在 Wiki 中找到支撐，保持不變。"
+ },
+ {
+  "t": 8203.7,
+  "node": "draft",
+  "status": "flag",
+  "detail": "#3 第3版不過，已達上限，標記⚑待人工確認"
+ }
+]

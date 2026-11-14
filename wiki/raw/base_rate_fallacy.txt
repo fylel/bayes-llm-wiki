@@ -1,0 +1,65 @@
+source: https://en.wikipedia.org/wiki/Base_rate_fallacy
+
+The base rate fallacy, also called base rate neglect or base rate bias, is a type of fallacy in which people tend to ignore the base rate (e.g., general prevalence) in favor of the  information pertaining only to a specific case. Base rate neglect is a specific form of the more general extension neglect.
+It is also called the prosecutor's fallacy or defense attorney's fallacy when applied to the results of statistical tests (such as DNA tests) in the context of law proceedings. These terms were introduced by William C. Thompson and Edward Schumann in 1987, although it has been argued that their definition of the prosecutor's fallacy extends to many additional invalid imputations of guilt or liability that are not analyzable as errors in base rates or Bayes's theorem.
+
+
+== False positive paradox ==
+An example of the base rate fallacy is the false positive paradox (also known as accuracy paradox). This paradox describes situations where there are more false positive test results than true positives (this means the classifier has a low precision). For example, if a facial recognition camera can identify wanted criminals 99% accurately, but analyzes 10,000 people a day, the high accuracy is outweighed by the number of tests; because of this, the program's list of criminals will likely have far more innocents (false positives) than criminals (true positives) because there are far more innocents than criminals overall. The probability of a positive test result is determined not only by the accuracy of the test but also by the characteristics of the sampled population. The fundamental issue is that the far higher prevalence of true negatives means that the pool of people testing positively will be dominated by false positives, given that even a small fraction of the much larger [negative] group will produce a larger number of indicated positives than the larger fraction of the much smaller [positive] group.
+When the prevalence, the proportion of those who have a given condition, is lower than the test's false positive rate, even tests that have a very low risk of giving a false positive in an individual case will give more false than true positives overall.
+It is especially counter-intuitive when interpreting a positive result in a test on a low-prevalence population after having dealt with positive results drawn from a high-prevalence population. If the false positive rate of the test is higher than the proportion of the new population with the condition, then a test administrator whose experience has been drawn from testing in a high-prevalence population may conclude from experience that a positive test result usually indicates a positive subject, when in fact a false positive is far more likely to have occurred.
+
+
+== Examples ==
+
+
+=== Example 1: Disease ===
+
+
+==== High-prevalence population ====
+
+Imagine running an infectious disease test on a population A of 1,000 people, of which 40% are infected. The test has a false positive rate of 5% (0.05) and a false negative rate of zero. The expected outcome of the 1,000 tests on population A would be:
+
+So, in population A, a person receiving a positive test could be over 93% confident (⁠400/30 + 400⁠) that it correctly indicates infection.
+
+
+==== Low-prevalence population ====
+
+Now consider the same test applied to population B, of which only 2% are infected. The expected outcome of 1000 tests on population B would be:
+
+In population B, only 20 of the 69 total people with a positive test result are actually infected. So, the probability of actually being infected after one is told that one is infected is only 29% (⁠20/20 + 49⁠) for a test that otherwise appears to be "95% accurate".
+A tester with experience of group A might find it a paradox that in group B, a result that had usually correctly indicated infection is now usually a false positive. The confusion of the posterior probability of infection with the prior probability of receiving a false positive is a natural error after receiving a health-threatening test result.
+
+
+=== Example 2: Drunk drivers ===
+Imagine that a group of police officers have breathalyzers displaying false drunkenness in 5% of the cases in which the driver is sober. However, the breathalyzers never fail to detect a truly drunk person. One in a thousand drivers is driving drunk. Suppose the police officers then stop a driver at random to administer a breathalyzer test. It indicates that the driver is drunk. No other information is known about them.
+Many would estimate the probability that the driver is drunk as high as 95%, but the correct probability is about 2%.
+An explanation for this is as follows: on average, for every 1,000 drivers tested,
+
+1 driver is drunk, and it is 100% certain that for that driver there is a true positive test result, so there is 1 true positive test result
+999 drivers are not drunk, and among those drivers there are 5% false positive test results, so there are 49.95 false positive test results
+Therefore, the probability that any given driver among the 1 + 49.95 = 50.95 positive test results really is drunk is 1/50.95≈1.9627%.
+The validity of this result does, however, hinge on the validity of the initial assumption that the police officer stopped the driver truly at random, and not because of bad driving. If that or another non-arbitrary reason for stopping the driver was present, then the calculation also involves the probability of a drunk driver driving competently and a non-drunk driver driving (in-)competently.
+More formally, the same probability of roughly 0.02 can be established using Bayes' theorem. The goal is to find the probability that the driver is drunk given that the breathalyzer indicated they are drunk, which can be represented as
+p(drunk∣D)
+where D means that the breathalyzer indicates that the driver is drunk. Using Bayes's theorem,
+p(drunk∣D)=p(D∣drunk)p(drunk)p(D).
+The following information is known in this scenario:
+p(drunk)=0.001,p(sober)=0.999,p(D∣drunk)=1.00,p(D∣sober)=0.05.
+As can be seen from the formula, one needs p(D) for Bayes' theorem, which can be computed from the preceding values using the law of total probability:
+p(D)=p(D∣drunk)p(drunk)+p(D∣sober)p(sober)
+which gives
+p(D)=(1.00×0.001)+(0.05×0.999)=0.05095.
+Substituting these numbers into Bayes' theorem, one finds that
+p(drunk∣D)=1.00×0.0010.05095≈0.019627,
+which is the precision of the test.
+
+
+=== Example 3: Terrorist identification ===
+In a city of 1 million inhabitants, let there be 100 terrorists and 999,900 non-terrorists. To simplify the example, assume that all people present in the city are inhabitants. Thus, the base rate probability of a randomly selected inhabitant of the city being a terrorist is 0.0001, and the base rate probability of that same inhabitant being a non-terrorist is 0.9999. In an attempt to catch the terrorists, the city installs an alarm system with a surveillance camera and automatic facial recognition software.
+The software has two failure rates of 1%:
+
+The false negative rate: If the camera scans a terrorist, a bell will ring 99% of the time, and it will fail to ring 1% of the time.
+The false positive rate: If the camera scans a non-terrorist, a bell will not ring 99% of the time, but it will ring 1% of the time.
+Suppose now that an inhabitant triggers the alarm. Someone making the base rate fallacy would infer that there is a 99% probability that the detected person is a terrorist. Although the inference seems to make sense, it is actually bad reasoning, and a calculation below will show that the probability of a terrorist is actually near 1%, not near 99%.
+The fallacy arises from confusing the natures of two different failure rates. The 'number of non-bells per 100 terrorists' (P(¬B | T), or the probability that the bell fails to ring given the inhabitant is a terrorist) and the 'number of non-terrorists per 100 bells' (P(¬T | B), or the probability that the inhabitant is a non-terrorist given the bell rings) are unrelated quantities; 

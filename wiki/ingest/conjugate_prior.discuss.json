@@ -1,0 +1,32 @@
+{
+ "summary": "此資料說明共軛先驗（conjugate prior）的概念、其在貝氏推論中的便利性與範例，並介紹超參數與偽觀測的直觀解釋。",
+ "key_points": [
+  "共軛先驗使後驗分佈與先驗分佈屬於同一分布族，提供封閉形式的後驗解。",
+  "以二項分布與 Beta 分布為典型例子，說明先驗與後驗的超參數如何更新。",
+  "超參數可視為偽觀測，提供直觀的先驗設定方法。",
+  "在指數族（exponential family）下，多數常見的似然函數都有對應的共軛先驗。",
+  "使用共軛先驗可簡化後驗預測分佈（posterior predictive）的計算。"
+ ],
+ "conflicts": [],
+ "proposed_pages": [
+  {
+   "name": "conjugate-prior",
+   "action": "create",
+   "reason": "新增說明共軛先驗的概念、超參數與範例，補足現有 Wiki 中缺少的相關內容。"
+  },
+  {
+   "name": "beta-binomial-example",
+   "action": "create",
+   "reason": "提供二項-貝塔共軛先驗的具體計算示例，可作為 [[bayesian-inference]] 或 [[bayesian-updating]] 的補充。"
+  },
+  {
+   "name": "gamma-poisson-example",
+   "action": "create",
+   "reason": "說明 Gamma 為 Poisson 似然的共軛先驗，並展示後驗預測為負二項分布的例子，與實務情境連結。"
+  }
+ ],
+ "questions": [
+  "您希望在共軛先驗頁面加入哪些實務範例（例如醫療診斷、租車服務或其他情境）？",
+  "是否需要在頁面中加入與 [[informative-prior]]、[[uninformative-prior]] 的比較說明？"
+ ]
+}

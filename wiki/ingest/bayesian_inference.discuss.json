@@ -1,0 +1,27 @@
+{
+ "summary": "這份資料說明貝氏推論（Bayesian inference）的概念、如何利用先驗分佈與似然函數得到後驗分佈，以及在多次觀測與參數化模型下的公式與應用。",
+ "key_points": [
+  "貝氏推論以先驗機率（prior probability）與似然函數（likelihood）結合，根據貝氏定理得到後驗機率（posterior probability）。",
+  "後驗機率的計算式為 $P(H\\mid E)=\\frac{P(E\\mid H)P(H)}{P(E)}$，其中 $P(E)=\\sum_i P(E\\mid H_i)P(H_i)$。",
+  "多次獨立觀測時，可將所有似然相乘：$P(\\mathbf{E}\\mid H)=\\prod_{k}P(e_k\\mid H)$，再套用同樣的貝氏公式得到更新的後驗分佈。",
+  "參數化形式將模型空間視為參數空間，先驗分佈 $p(\\theta\\mid\\alpha)$ 與資料的似然 $p(\\mathbf{E}\\mid\\theta,\\alpha)$ 合併得到參數的後驗分佈 $p(\\theta\\mid\\mathbf{E},\\alpha)$。",
+  "貝氏推論廣泛應用於科學、工程、醫學等領域，且與主觀機率（subjective probability）密切相關。"
+ ],
+ "conflicts": [],
+ "proposed_pages": [
+  {
+   "name": "bayesian-inference",
+   "action": "create",
+   "reason": "目前目錄缺少貝氏推論的完整說明，此頁可補充先驗、似然、後驗的概念與公式，並連結至 [[bayes-theorem]]、[[bayesian-updating]]（若未建立可同時建立）等相關頁面。"
+  },
+  {
+   "name": "bayesian-updating",
+   "action": "create",
+   "reason": "原始資料提到「Bayesian updating」作為動態更新過程，適合作為獨立子頁，說明多次觀測的遞迴更新方式，並與 [[bayesian-inference]] 互相連結。"
+  }
+ ],
+ "questions": [
+  "您希望在貝氏推論頁面加入哪些實務範例（例如醫學診斷、A/B 測試）？",
+  "是否需要在頁面中說明與非貝氏更新規則的差異，或僅聚焦於貝氏本身的概念？"
+ ]
+}

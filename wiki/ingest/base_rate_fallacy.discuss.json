@@ -1,0 +1,27 @@
+{
+ "summary": "這份資料說明基礎率謬誤（base rate fallacy），即在判斷時忽略整體發生率，只看個別案例的資訊，並以假陽性悖論等例子說明其影響。",
+ "key_points": [
+  "基礎率謬誤是忽略整體發生率（base rate）而只看個別測試結果的錯誤推論。",
+  "假陽性悖論（false positive paradox）說明在低發生率族群中，即使測試準確度高，陽性結果多為假陽性。",
+  "範例包括疾病測試、酒駕測試與恐怖分子辨識，皆可用貝氏定理計算正確的後驗機率。",
+  "使用貝氏定理時需結合先驗機率（base rate）與似然（likelihood）才能得到正確的後驗機率。",
+  "基礎率謬誤常與檢察官謬誤（prosecutor's fallacy）混同，兩者皆涉及錯誤的機率解讀。"
+ ],
+ "conflicts": [],
+ "proposed_pages": [
+  {
+   "name": "base-rate-fallacy",
+   "action": "create",
+   "reason": "說明基礎率謬誤的概念與假陽性悖論，補足貝氏統計入門中對先驗機率重要性的實例。"
+  },
+  {
+   "name": "false-positive-paradox",
+   "action": "create",
+   "reason": "提供假陽性悖論的詳細說明與數值示例，與 [[bayesian-inference]] 互相連結。"
+  }
+ ],
+ "questions": [
+  "是否希望在新頁面中加入與醫學診斷（[[medical-diagnosis-example]]）的連結，以強調基礎率謬誤的實際應用？",
+  "範例的情境是否需要再加入其他領域（如法律或安全）以擴充說明？"
+ ]
+}

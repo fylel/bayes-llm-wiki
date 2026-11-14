@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>貝氏統計入門：用新證據更新你的相信程度</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+ onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<style>
+:root{--bg:#faf7f2;--ink:#1f1d1a;--accent:#b4531a;--soft:#efe6d8;--muted:#7b736a}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#2b2724;font-family:system-ui,'Noto Sans TC','PingFang TC',sans-serif}
+.deck{position:relative;width:min(100vw,177.78vh);height:min(56.25vw,100vh);margin:auto;top:50%;transform:translateY(-50%)}
+.slide{position:absolute;inset:0;background:var(--bg);color:var(--ink);padding:5% 7% 4%;display:none;flex-direction:column;font-size:clamp(14px,2.1vw,30px)}
+.slide.active{display:flex}
+.cover{justify-content:center;background:linear-gradient(135deg,#faf7f2 60%,#f1e2cf)}
+.kicker{color:var(--accent);letter-spacing:.15em;font-weight:600;font-size:.7em;margin:0}
+h1{font-size:2.1em;line-height:1.2;margin:.3em 0}.sub{color:var(--muted)}.hint{color:var(--muted);font-size:.55em;margin-top:3em}
+h2{font-size:1.45em;margin:0 0 .6em;border-left:.25em solid var(--accent);padding-left:.5em}
+.num{position:absolute;top:4%;right:5%;color:var(--soft);font-size:2.6em;font-weight:800}
+.body{flex:1;overflow:auto}ul{margin:0;padding-left:1.1em}li{margin:.35em 0;line-height:1.45}
+.formula{background:white;border:1px solid var(--soft);border-radius:8px;margin:.6em 0;padding:.2em .6em;font-size:.95em}
+.example{background:var(--soft);border-radius:8px;padding:.5em .8em;margin-top:.5em;font-size:.82em;line-height:1.5}
+.example b{color:var(--accent);margin-right:.6em}
+footer{display:flex;justify-content:space-between;align-items:center;font-size:.45em;color:var(--muted);border-top:1px solid var(--soft);padding-top:.6em}
+footer a{color:var(--accent);text-decoration:none;margin-right:.4em}
+.badge{background:#e3efe2;color:#2f6b2c;padding:.2em .6em;border-radius:99px}.badge.flag{background:#fbe3d9;color:#a23a12}
+.notes{display:none;position:absolute;left:0;right:0;bottom:0;background:#1f1d1aee;color:#f5efe6;padding:1em 7%;font-size:.55em;line-height:1.6}
+.notes b{display:block;color:#f0a35e}body.show-notes .slide.active .notes{display:block}
+.small{font-size:.6em;color:var(--muted)}.refs a{color:var(--accent)}
+.bar{position:fixed;left:0;bottom:0;height:4px;background:var(--accent);transition:width .2s}
+.ctr{position:fixed;right:12px;bottom:10px;color:#ccc;font-size:12px}
+</style></head><body><div class="deck"><section class="slide cover"><div>
+<p class="kicker">LLM Wiki 教學簡報</p><h1>貝氏統計入門：用新證據更新你的相信程度</h1>
+<p class="sub">給修過基礎機率、但沒學過貝氏統計的大學生</p>
+<p class="hint">按 → 或空白鍵翻頁 · N 顯示講者備註</p></div></section><section class="slide"><div class="num">01</div>
+<h2>什麼是先驗機率與後驗機率？</h2><div class="body"><ul><li>先驗機率（prior probability）是未看到新資料前，我們對參數的信念分佈。</li><li>概似（likelihood）是給定參數時，觀測資料出現的條件機率。</li><li>貝氏定理把先驗與概似結合，得到加入證據後的後驗機率（posterior probability）。</li><li>先驗可來自過去資料、專家意見或在無資訊時採用均勻分佈。</li><li>一次或多次觀測都可用相同公式遞迴更新，形成動態的信念修正機制。</li></ul><div class="formula">$$posterior \propto likelihood \times prior$$</div><div class="example"><b>範例</b>假設要估計硬幣正面機率 p，先以 Beta(α,β) 分佈作先驗。Beta 分佈是介於 0~1 的機率分佈，α、β 兩參數決定形狀。投擲 n 次得到 x 次正面，概似為 Binom(n,p)。更新後的後驗仍是 Beta(α+x,β+n-x)。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#prior-probability" target="_blank">[[prior-probability]]</a> <a href="wiki.html#bayesian-updating" target="_blank">[[bayesian-updating]]</a></span><span class="badge">✓ 第 5 版通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者備註：先驗像事前的猜測，概似像新證據的說服力，後驗則是結合後的最終答案；別把概似誤認為機率本身，它是條件機率。</aside></section><section class="slide"><div class="num">02</div>
+<h2>貝氏定理的推導：從全機率到後驗機率</h2><div class="body"><ul><li>先用全機率定理把所有可能的原因加總，得到觀測事件的總機率。</li><li>把全機率式代入貝氏公式，分子是「先驗 × 概似」，分母是觀測事件的總機率。</li><li>結果顯示：先驗與概似的乘積，除以所有原因的加權和，即為後驗機率。</li><li>圖示上，先驗→概似→後驗形成一條資訊流，說明新證據如何更新信念。</li><li>此推導適用於二元或多類別情況，只要事件互斥且完整即可。</li></ul><div class="formula">$$P(A_i|B)=\frac{P(A_i)\,P(B|A_i)}{\sum_{j}P(A_j)\,P(B|A_j)}$$</div><div class="example"><b>範例</b>假設疾病測試：先驗患病率 1%，測試靈敏度 90%，偽陽率 5%。先算總陽性機率，再用貝氏公式得到檢測陽性時的實際患病機率。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#bayes-theorem" target="_blank">[[bayes-theorem]]</a></span><span class="badge">✓ 第 4 版通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者備註：可用「水桶」比喻說明先驗是原始水量，概似是過濾器，後驗是過濾後的水；常見誤解是把 P(B|A) 當成 P(A|B)。</aside></section><section class="slide"><div class="num">03</div>
+<h2>基礎率謬誤：忽略先驗的危險</h2><div class="body"><ul><li>先驗機率（prior probability）是整體族群中疾病的發生機率，例如 1%。</li><li>靈敏度（sensitivity）指真的有病時測驗顯示陽性的機率。</li><li>偽陽性率（false positive rate）指沒有病時測驗錯誤顯示陽性的機率。</li><li>在低先驗情況下，即使偽陽性率低，陽性結果多為偽陽性。</li></ul><div class="formula">$$P(D\mid +)=\frac{P(+\mid D)\,P(D)}{P(+\mid D)\,P(D)+P(+\mid \neg D)\,P(\neg D)}$$</div><div class="example"><b>範例</b>疾病篩檢：先驗 0.01，靈敏度 0.9，偽陽性率 0.05，求陽性實為真病的機率。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#base-rate-fallacy" target="_blank">[[base-rate-fallacy]]</a></span><span class="badge flag">⚑ 未完全通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者可說「千人中有 10 人真的生病」說明先驗；提醒別把 P(+|D) 當成 P(D|+)；¬D 表示「沒有疾病」，其先驗機率為 1‑P(D)。</aside></section><section class="slide"><div class="num">04</div>
+<h2>貝氏推論：結合先驗與概似</h2><div class="body"><ul><li>先驗機率（prior）是我們在看到資料前對參數的信念，用機率分佈表示。</li><li>概似函數（likelihood）描述觀測資料在給定參數下出現的機率。</li><li>貝氏定理把先驗與概似相乘，再正規化得到後驗分佈（posterior）。</li><li>後驗分佈即是更新後的信念，可直接算出參數的點估計或可信區間。</li></ul><div class="formula">$$P(\theta\mid D)=\frac{P(D\mid\theta)P(\theta)}{\int P(D\mid\theta)P(\theta)d\theta}$$</div><div class="example"><b>範例</b>拋硬幣：先驗選 Beta(2,2)，觀測 10 次出現 7 次正面，得到後驗 Beta(9,5)。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#bayesian-inference" target="_blank">[[bayesian-inference]]</a> <a href="wiki.html#prior-probability" target="_blank">[[prior-probability]]</a></span><span class="badge">✓ 第 1 版通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者可說明先驗 Beta(2,2) 相當於「對硬幣公平性」的弱資訊先驗；觀測後的後驗均值 0.64 表示我們現在相信硬幣偏向正面，但仍有不確定性。常見誤解是把後驗機率當成「未來一定會出現」的機率，實際上它是對參數的信念分佈。</aside></section><section class="slide"><div class="num">05</div>
+<h2>共軛先驗與 Beta‑Binomial 範例</h2><div class="body"><ul><li>Beta 先驗與二項概似是共軛配對，更新只需把成功次數加到 α，失敗次數加到 β。</li><li>α、β 可視為偽觀測，代表先驗中假想的成功與失敗次數。</li><li>更新後的後驗仍是 Beta 分佈，方便直接計算均值、變異等統計量。</li><li>在資料少時，先驗的偽觀測會對結果產生顯著影響；資料多時，後驗趨近觀測比例。</li></ul><div class="formula">$$Beta(\alpha+s,\beta+f)$$</div><div class="example"><b>範例</b>以拋硬幣為例，先驗 Beta(2,2)，觀測 10 次其中 7 次正面，得到後驗 Beta(9,5)。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#conjugate-prior" target="_blank">[[conjugate-prior]]</a> <a href="wiki.html#beta-binomial-example" target="_blank">[[beta-binomial-example]]</a></span><span class="badge">✓ 第 1 版通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者可說明偽觀測就像在先驗中已經「看到」了 α-1 次正面、β-1 次反面，讓學生感受先驗對少量資料的拉回效應。</aside></section><section class="slide"><div class="num">06</div>
+<h2>可信區間：從點估計到區間估計</h2><div class="body"><ul><li>可信區間是後驗分佈中參數落在某區間的機率。</li><li>最高密度區間（SCI）是密度最高、包含指定機率的最短區間。</li><li>等尾可信區間（MCI）取兩側分位數，保證兩側機率相等。</li><li>模式是分佈密度最高的點，單峰時會在最高密度區間內。</li><li>γ 表示想要的可信水平，例如 0.95 表示 95% 可信區間。</li></ul><div class="formula">$$P(a \le \theta \le b \mid \text{資料}) = \gamma$$</div><div class="example"><b>範例</b>投擲硬幣：先驗假設硬幣正面機率 0.5，觀測 8 次正面、2 次反面，得到後驗分佈。用 MCMC 抽樣後，可計算 95% 等尾區間 $[q_{0.025}, q_{0.975}]$ 或最高密度區間。</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#credible-interval" target="_blank">[[credible-interval]]</a> <a href="wiki.html#bayesian-inference" target="_blank">[[bayesian-inference]]</a></span><span class="badge flag">⚑ 未完全通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者備註：MCMC（馬可夫鏈蒙特卡羅）是一種透過隨機抽樣近似後驗分佈的方法。說明最高密度區間與等尾區間都是可信區間的不同形態，避免把它們與頻率學派的置信區間混淆。</aside></section><section class="slide"><div class="num">07</div>
+<h2>實務應用：疾病篩檢的貝氏更新</h2><div class="body"><ul><li>先驗機率（先驗）代表疾病在整體族群中的基礎盛行率。</li><li>靈敏度是檢驗在真實患病時呈陽性的機率。</li><li>偽陽性率是檢驗在未患病時錯誤呈陽性的機率。</li><li>利用貝氏定理結合先驗與檢驗特性，可算出陽性結果下的實際患病機率。</li><li>即使檢驗靈敏度高，若疾病罕見，後驗機率仍可能相當低。</li></ul><div class="formula">$$P(E|F)=\frac{P(F|E)\,P(E)}{P(F|E)\,P(E)+P(F|\neg E)\,P(\neg E)}$$</div></div>
+<footer><span>依據 Wiki：<a href="wiki.html#medical-diagnosis-example" target="_blank">[[medical-diagnosis-example]]</a> <a href="wiki.html#false-positive-paradox" target="_blank">[[false-positive-paradox]]</a></span><span class="badge">✓ 第 2 版通過檢查</span></footer>
+<aside class="notes"><b>講者備註</b>講者可說明：先驗 1%（0.01）與偽陽性率 5%（0.05）結合 90% 靈敏度，陽性結果的後驗機率約 15.4%。此例同時說明假陽性悖論與基礎率謬誤的關聯。</aside></section><section class="slide"><h2>參考資料</h2><div class="body">
+<p>本簡報每一張都只根據下列 Wiki 頁面生成：</p><ul class="refs"><li><a href="wiki.html#base-rate-fallacy" target="_blank">基礎率謬誤</a></li><li><a href="wiki.html#bayes-theorem" target="_blank">Bayes' Theorem</a></li><li><a href="wiki.html#bayesian-inference" target="_blank">Bayesian Inference</a></li><li><a href="wiki.html#bayesian-updating" target="_blank">Bayesian Updating</a></li><li><a href="wiki.html#beta-binomial-example" target="_blank">二項‑貝塔範例（Beta‑Binomial Example）</a></li><li><a href="wiki.html#conjugate-prior" target="_blank">共軛先驗（Conjugate Prior）</a></li><li><a href="wiki.html#credible-interval" target="_blank">可信區間（credible interval）</a></li><li><a href="wiki.html#false-positive-paradox" target="_blank">假陽性悖論</a></li><li><a href="wiki.html#medical-diagnosis-example" target="_blank">Medical Diagnosis Example</a></li><li><a href="wiki.html#prior-probability" target="_blank">先驗機率（Prior Probability）</a></li></ul>
+<p class="small">Wiki 的原始資料（raw）：base_rate_fallacy、bayes_theorem、bayesian_inference、conjugate_prior、credible_interval、prior_probability</p></div></section></div><div class="bar"></div><div class="ctr"></div>
+<script>
+const S=[...document.querySelectorAll('.slide')];let i=Math.max(0,Math.min(S.length-1,(parseInt(location.hash.slice(1))||1)-1));
+function fit(s){const b=s.querySelector('.body');if(!b)return;let f=100;b.style.fontSize='';
+while(b.scrollHeight>b.clientHeight+1&&f>70){f-=5;b.style.fontSize=f+'%';}}
+window.addEventListener('load',()=>setTimeout(()=>fit(S[i]),300));window.addEventListener('resize',()=>fit(S[i]));
+function show(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,k)=>s.classList.toggle('active',k===i));fit(S[i]);
+document.querySelector('.bar').style.width=((i+1)/S.length*100)+'%';document.querySelector('.ctr').textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1));}
+document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key))show(i+1);
+else if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);else if(e.key==='n'||e.key==='N')document.body.classList.toggle('show-notes');});
+document.addEventListener('click',e=>{if(e.target.closest('a'))return;show(e.clientX>innerWidth/3?i+1:i-1);});
+let x0=null;document.addEventListener('touchstart',e=>x0=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)show(i+(d<0?1:-1));x0=null;});
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1));if(n&&n-1!==i)show(n-1);});
+show(i);
+</script></body></html>

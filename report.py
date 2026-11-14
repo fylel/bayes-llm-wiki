@@ -28,9 +28,10 @@ def compare_runs(logs, calls=None):
     return df.sort_values(fail_cols[0], ascending=False) if fail_cols else df
 
 
-def make_submission(out_dir, wiki, results, logs, cfg, ingest_records):
-    """把 1~5 項自動整理好；第 6 項（反思）留下你的實際數據與待填的問題。"""
+def make_submission(out_dir, wiki, results, logs, cfg, ingest_records, site=None, repo=None):
+    """把 1~5 項自動整理好；第 6 項（反思）讀 reflection.md。site / repo 為 GitHub Pages 網址與 repo 網址。"""
     out = Path(out_dir)
+    link = lambda f: f"{site.rstrip('/')}/{f}" if site else "〔貼上連結〕"
     calls = {k: r.get("llm_calls") for k, r in results.items() if r.get("llm_calls") is not None}
     df = compare_runs(logs, calls or None)
     table = "\n".join(["| 節點 | " + " | ".join(df.columns) + " |", "|---" * (len(df.columns) + 1) + "|"]
@@ -58,14 +59,15 @@ Wiki 由 LLM 依「先討論、後生成」的方式，從 {len(wiki.raw_names()
 {pages}
 
 ## 2. LLM Wiki 連結或成果
-- wiki.html（單頁瀏覽版，左側目錄可跳頁）：〔貼上連結〕
-- 原始 Markdown（wiki/pages、index.md、log.md）：〔貼上 GitHub 連結〕
+- wiki.html（單頁瀏覽版，左側目錄可跳頁）：{link("wiki.html")}
+- 原始 Markdown（wiki/pages、index.md、log.md）：{f"{repo}/tree/main/wiki" if repo else "〔貼上 GitHub 連結〕"}
 
 ingest 時的討論與我的回饋（節錄自 log.md）：
 {disc}
 
 ## 3. 教學 HTML 簡報連結
-〔貼上 slides.html 連結〕（← → 翻頁，N 顯示講者備註；每張頁尾列出依據的 Wiki 頁面，可點回 wiki.html 對照）
+{link("slides.html")}（← → 翻頁，N 顯示講者備註；每張頁尾列出依據的 Wiki 頁面，可點回 wiki.html 對照）
+- 第一次執行（v1）的簡報，供比較：{link("slides_v1.html")}
 
 ## 4. loop / graph 設計
 見 notebook 中的流程圖。文字版：

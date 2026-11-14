@@ -66,7 +66,7 @@ ingest 時的討論與我的回饋（節錄自 log.md）：
 {disc}
 
 ## 3. 教學 HTML 簡報連結
-{link("slides.html")}（← → 翻頁，N 顯示講者備註；每張頁尾列出依據的 Wiki 頁面，可點回 wiki.html 對照）
+{link("slides.html")} （← → 翻頁，N 顯示講者備註；每張頁尾列出依據的 Wiki 頁面，可點回 wiki.html 對照）
 - 第一次執行（v1）的簡報，供比較：{link("slides_v1.html")}
 
 ## 4. loop / graph 設計
